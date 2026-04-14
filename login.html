@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cardápio Pet Natural — Acesse sua conta</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    :root {
+      --sage:       #1A9E50;
+      --sage-dark:  #136B36;
+      --sage-bg:    #E6F7EE;
+      --gold:       #D4920A;
+      --gold-bright:#F5B418;
+      --white:      #FFFFFF;
+      --off-white:  #FDFAF4;
+      --border:     #DDE8D8;
+      --text:       #1A1A1A;
+      --muted:      #5A6472;
+      --error:      #DC2626;
+      --error-bg:   #FEF2F2;
+      --success:    #16A34A;
+      --success-bg: #F0FDF4;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: linear-gradient(160deg, #E8F5ED 0%, #F5F0E8 55%, #EBF5F0 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    /* ── LOGO / BRAND ─── */
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 28px;
+      text-decoration: none;
+    }
+
+    .brand-icon {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, var(--sage-dark), var(--sage));
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      box-shadow: 0 4px 14px rgba(26,158,80,0.35);
+    }
+
+    .brand-icon svg { width: 22px; height: 22px; }
+
+    .brand-name {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--sage-dark);
+      letter-spacing: -0.3px;
+    }
+
+    /* ── CARD ─── */
+    .card {
+      background: var(--white);
+      border-radius: 24px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+      width: 100%;
+      max-width: 420px;
+      overflow: hidden;
+    }
+
+    /* ── TABS ─── */
+    .tabs {
+      display: flex;
+      border-bottom: 1.5px solid var(--border);
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 16px;
+      background: none;
+      border: none;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+    }
+
+    .tab-btn.active {
+      color: var(--sage-dark);
+    }
+
+    .tab-btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1.5px;
+      left: 0; right: 0;
+      height: 2.5px;
+      background: var(--sage);
+      border-radius: 99px;
+    }
+
+    /* ── PANELS ─── */
+    .panel { display: none; padding: 28px 28px 32px; }
+    .panel.active { display: block; }
+
+    .panel-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 6px;
+      letter-spacing: -0.3px;
+    }
+
+    .panel-sub {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    /* ── INPUTS ─── */
+    .field { margin-bottom: 16px; }
+
+    .field label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      margin-bottom: 7px;
+    }
+
+    .field input {
+      width: 100%;
+      padding: 13px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      font-size: 16px;
+      color: var(--text);
+      background: var(--off-white);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      -webkit-appearance: none;
+    }
+
+    .field input::placeholder { color: #b0b7c0; }
+
+    .field input:focus {
+      border-color: var(--sage);
+      background: var(--white);
+      box-shadow: 0 0 0 3px rgba(26,158,80,0.12);
+    }
+
+    .field input.error-input {
+      border-color: var(--error);
+      box-shadow: 0 0 0 3px rgba(220,38,38,0.10);
+    }
+
+    /* ── PASSWORD TOGGLE ─── */
+    .field-pass { position: relative; }
+    .field-pass input { padding-right: 46px; }
+    .toggle-pass {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--muted);
+      padding: 4px;
+      display: flex;
+      align-items: center;
+    }
+    .toggle-pass svg { width: 18px; height: 18px; }
+
+    /* ── ESQUECI SENHA LINK ─── */
+    .forgot-link {
+      display: block;
+      text-align: right;
+      font-size: 12px;
+      color: var(--sage);
+      font-weight: 600;
+      text-decoration: none;
+      margin-top: -10px;
+      margin-bottom: 20px;
+      cursor: pointer;
+    }
+    .forgot-link:hover { text-decoration: underline; }
+
+    /* ── TERMOS ─── */
+    .terms-wrap {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 20px;
+      padding: 14px 16px;
+      background: var(--off-white);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      cursor: pointer;
+    }
+
+    .terms-wrap input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      min-width: 18px;
+      accent-color: var(--sage);
+      margin-top: 1px;
+      cursor: pointer;
+    }
+
+    .terms-text {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .terms-text a {
+      color: var(--sage);
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .terms-text a:hover { text-decoration: underline; }
+
+    /* ── BOTÃO PRINCIPAL ─── */
+    .btn-primary {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, var(--sage) 0%, var(--sage-dark) 100%);
+      border: none;
+      border-radius: 99px;
+      font-size: 15px;
+      font-weight: 800;
+      color: white;
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: 0.1px;
+      min-height: 52px;
+      box-shadow: 0 6px 20px rgba(26,158,80,0.35);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(26,158,80,0.42);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .btn-primary.loading {
+      opacity: 0.8;
+      cursor: not-allowed;
+    }
+
+    /* ── DIVISOR ─── */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 20px 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── ALERTA ─── */
+    .alert {
+      display: none;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 13px;
+      margin-bottom: 16px;
+      line-height: 1.5;
+      font-weight: 500;
+    }
+
+    .alert.show { display: flex; align-items: flex-start; gap: 8px; }
+    .alert.error  { background: var(--error-bg);   color: var(--error);   border: 1px solid #FECACA; }
+    .alert.success{ background: var(--success-bg); color: var(--success); border: 1px solid #BBF7D0; }
+    .alert svg { width: 16px; height: 16px; flex-shrink: 0; margin-top: 1px; }
+
+    /* ── PAINEL ESQUECI SENHA ─── */
+    .back-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0;
+      margin-bottom: 20px;
+    }
+    .back-btn:hover { color: var(--text); }
+    .back-btn svg { width: 16px; height: 16px; }
+
+    /* ── FORÇA DA SENHA ─── */
+    .strength-bar {
+      display: flex;
+      gap: 4px;
+      margin-top: 8px;
+    }
+    .strength-seg {
+      flex: 1;
+      height: 3px;
+      border-radius: 99px;
+      background: var(--border);
+      transition: background 0.3s;
+    }
+    .strength-label {
+      font-size: 11px;
+      margin-top: 4px;
+      color: var(--muted);
+    }
+
+    /* ── RODAPÉ ─── */
+    .footer-text {
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 20px;
+    }
+
+    /* ── MOBILE ─── */
+    @media (max-width: 480px) {
+      body { padding: 16px; background: var(--white); justify-content: flex-start; padding-top: 40px; }
+      .card { border-radius: 20px; box-shadow: 0 8px 32px rgba(0,0,0,0.10); }
+      .panel { padding: 22px 20px 28px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- AVISO LEGAL FIXO NO RODAPÉ -->
+<div id="avisoLegal" style="
+  position:fixed; bottom:0; left:0; right:0; z-index:998;
+  background:rgba(255,255,255,0.97);
+  border-top:1px solid #DDE8D8;
+  padding:10px 16px;
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  font-size:11px; color:#5A6472; line-height:1.4;
+  box-shadow: 0 -2px 12px rgba(0,0,0,0.07);
+">
+  <span>
+    ⚕️ <strong>Aviso:</strong> As sugestões deste app são <strong>informativas</strong> e não substituem orientação veterinária. Consulte um médico veterinário antes de alterar a dieta do seu pet.
+  </span>
+  <button onclick="document.getElementById('avisoLegal').style.display='none'; localStorage.setItem('avisoOk','1')"
+    style="background:#1A9E50;border:none;color:white;font-size:11px;font-weight:700;padding:6px 12px;border-radius:99px;cursor:pointer;white-space:nowrap;flex-shrink:0;">
+    Entendi ✓
+  </button>
+</div>
+<script>
+  if(localStorage.getItem('avisoOk')==='1'){
+    document.addEventListener('DOMContentLoaded',function(){
+      var el=document.getElementById('avisoLegal');
+      if(el) el.style.display='none';
+    });
+  }
+</script>
+
+<!-- BRAND -->
+<a class="brand" href="calculadora-pet-FINAL.html">
+  <div class="brand-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+  </div>
+  <span class="brand-name">Cardápio Pet Natural</span>
+</a>
+
+<div class="card">
+
+  <!-- TABS -->
+  <div class="tabs" id="mainTabs">
+    <button class="tab-btn active" onclick="showTab('login')">Entrar</button>
+    <button class="tab-btn"        onclick="showTab('cadastro')">Criar conta</button>
+  </div>
+
+  <!-- ── PAINEL LOGIN ── -->
+  <div class="panel active" id="panelLogin">
+    <div class="panel-title">Bem-vinda de volta! 👋</div>
+    <div class="panel-sub">Acesse seu cardápio personalizado</div>
+
+    <div class="alert" id="alertLogin"></div>
+
+    <div class="field">
+      <label>E-mail</label>
+      <input type="email" id="loginEmail" placeholder="seu@email.com" autocomplete="email"/>
+    </div>
+
+    <div class="field">
+      <label>Senha</label>
+      <div class="field-pass">
+        <input type="password" id="loginSenha" placeholder="••••••••" autocomplete="current-password"/>
+        <button type="button" class="toggle-pass" onclick="togglePass('loginSenha', this)">
+          <svg id="eyeLogin" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <span class="forgot-link" onclick="showForgot()">Esqueci minha senha</span>
+
+    <button class="btn-primary" id="btnLogin" onclick="handleLogin()">
+      Entrar na minha conta
+    </button>
+
+    <div class="footer-text">
+      Não tem conta? <span style="color:var(--sage);font-weight:700;cursor:pointer" onclick="showTab('cadastro')">Crie uma grátis</span>
+    </div>
+  </div>
+
+  <!-- ── PAINEL CADASTRO ── -->
+  <div class="panel" id="panelCadastro">
+    <div class="panel-title">Crie sua conta 🐾</div>
+    <div class="panel-sub">Acesse seu cardápio completo após a compra</div>
+
+    <div class="alert" id="alertCadastro"></div>
+
+    <div class="field">
+      <label>Seu nome</label>
+      <input type="text" id="cadNome" placeholder="Ex: Maria" autocomplete="name"/>
+    </div>
+
+    <div class="field">
+      <label>E-mail</label>
+      <input type="email" id="cadEmail" placeholder="seu@email.com" autocomplete="email"/>
+    </div>
+
+    <div class="field">
+      <label>Senha</label>
+      <div class="field-pass">
+        <input type="password" id="cadSenha" placeholder="Mínimo 8 caracteres" autocomplete="new-password" oninput="checkStrength(this.value)"/>
+        <button type="button" class="toggle-pass" onclick="togglePass('cadSenha', this)">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+      </div>
+      <div class="strength-bar">
+        <div class="strength-seg" id="s1"></div>
+        <div class="strength-seg" id="s2"></div>
+        <div class="strength-seg" id="s3"></div>
+        <div class="strength-seg" id="s4"></div>
+      </div>
+      <div class="strength-label" id="strengthLabel"></div>
+    </div>
+
+    <div class="field">
+      <label>Confirmar senha</label>
+      <div class="field-pass">
+        <input type="password" id="cadConfirma" placeholder="Repita a senha" autocomplete="new-password"/>
+        <button type="button" class="toggle-pass" onclick="togglePass('cadConfirma', this)">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <label class="terms-wrap">
+      <input type="checkbox" id="termos"/>
+      <span class="terms-text">
+        Li e aceito os <a href="#" onclick="showTermos(event)">Termos de Uso</a> e a
+        <a href="#" onclick="showPrivacidade(event)">Política de Privacidade</a>.
+        Confirmo que tenho 18 anos ou mais e estou ciente de que as sugestões deste app são
+        <strong>informativas</strong> e não substituem orientação veterinária.
+      </span>
+    </label>
+
+    <button class="btn-primary" id="btnCadastro" onclick="handleCadastro()">
+      Criar minha conta
+    </button>
+
+    <div class="footer-text">
+      Já tem conta? <span style="color:var(--sage);font-weight:700;cursor:pointer" onclick="showTab('login')">Entrar</span>
+    </div>
+  </div>
+
+  <!-- ── PAINEL ESQUECI SENHA ── -->
+  <div class="panel" id="panelForgot">
+    <button class="back-btn" onclick="showTab('login')">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      Voltar
+    </button>
+    <div class="panel-title">Esqueceu a senha? 🔑</div>
+    <div class="panel-sub">Digite seu e-mail e enviaremos um link para você criar uma nova senha.</div>
+
+    <div class="alert" id="alertForgot"></div>
+
+    <div class="field">
+      <label>E-mail cadastrado</label>
+      <input type="email" id="forgotEmail" placeholder="seu@email.com"/>
+    </div>
+
+    <button class="btn-primary" id="btnForgot" onclick="handleForgot()">
+      Enviar link de recuperação
+    </button>
+  </div>
+
+</div>
+
+<!-- ── MODAL TERMOS ── -->
+<div id="modalTermos" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:999;overflow-y:auto;padding:20px;">
+  <div style="background:white;border-radius:20px;max-width:520px;margin:auto;padding:28px;position:relative;">
+    <button onclick="document.getElementById('modalTermos').style.display='none'" style="position:absolute;top:16px;right:16px;background:none;border:none;cursor:pointer;color:#666;font-size:20px;">✕</button>
+    <h2 style="font-size:18px;font-weight:800;color:#1A1A1A;margin-bottom:16px;">📋 Termos de Uso</h2>
+    <div style="font-size:13px;color:#5A6472;line-height:1.7;">
+      <p><strong>1. Serviço</strong><br>O Cardápio Pet Natural é um serviço digital que fornece sugestões alimentares personalizadas para pets. As informações fornecidas são de caráter educativo e não substituem orientação veterinária.</p>
+      <br>
+      <p><strong>2. Uso responsável</strong><br>O usuário é responsável por consultar um médico veterinário antes de alterar a dieta do seu pet, especialmente em caso de doenças ou condições especiais.</p>
+      <br>
+      <p><strong>3. Conta</strong><br>Cada conta é pessoal e intransferível. O usuário é responsável pela segurança de sua senha.</p>
+      <br>
+      <p><strong>4. Pagamento</strong><br>Os planos pagos dão acesso ao cardápio completo em PDF. O acesso é liberado após confirmação do pagamento.</p>
+      <br>
+      <p><strong>5. Cancelamento</strong><br>Por se tratar de produto digital, não há reembolso após o download do PDF, conforme Art. 49 do CDC.</p>
+      <br>
+      <p><strong>6. Contato</strong><br>Dúvidas: mari08waki@gmail.com</p>
+    </div>
+  </div>
+</div>
+
+<!-- ── MODAL PRIVACIDADE ── -->
+<div id="modalPriv" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:999;overflow-y:auto;padding:20px;">
+  <div style="background:white;border-radius:20px;max-width:520px;margin:auto;padding:28px;position:relative;">
+    <button onclick="document.getElementById('modalPriv').style.display='none'" style="position:absolute;top:16px;right:16px;background:none;border:none;cursor:pointer;color:#666;font-size:20px;">✕</button>
+    <h2 style="font-size:18px;font-weight:800;color:#1A1A1A;margin-bottom:16px;">🔒 Política de Privacidade</h2>
+    <div style="font-size:13px;color:#5A6472;line-height:1.7;">
+      <p><strong>Dados coletados</strong><br>Nome, e-mail e informações sobre o pet (tipo, porte, fase). Não coletamos dados sensíveis ou financeiros.</p>
+      <br>
+      <p><strong>Uso dos dados</strong><br>Os dados são usados exclusivamente para personalizar o cardápio e enviar informações relacionadas ao serviço.</p>
+      <br>
+      <p><strong>Compartilhamento</strong><br>Não vendemos ou compartilhamos seus dados com terceiros, exceto parceiros de pagamento (Clickmax) para processamento da transação.</p>
+      <br>
+      <p><strong>Segurança</strong><br>Seus dados são armazenados com criptografia no Supabase (infraestrutura AWS). Senhas são armazenadas com hash bcrypt.</p>
+      <br>
+      <p><strong>LGPD</strong><br>Em conformidade com a Lei Geral de Proteção de Dados (Lei 13.709/2018). Você pode solicitar a exclusão dos seus dados a qualquer momento.</p>
+      <br>
+      <p><strong>Contato DPO</strong><br>mari08waki@gmail.com</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── SUPABASE ──────────────────────────────────────────
+  const { createClient } = supabase;
+  const sb = createClient(
+    'https://fzmqdevzdwluhasvxswi.supabase.co',
+    'sb_publishable_FJ921pqk3-vg8gD68euDTg_H1TtAZdz'
+  );
+
+  // Admin email
+  const ADMIN_EMAIL = 'mari08waki@gmail.com';
+
+  // ── VERIFICAR SE JÁ ESTÁ LOGADO ──
+  (async () => {
+    const { data: { session } } = await sb.auth.getSession();
+    if (session) redirectUser(session.user.email);
+  })();
+
+  function redirectUser(email) {
+    if (email === ADMIN_EMAIL) {
+      window.location.href = 'admin.html';
+    } else {
+      window.location.href = 'cardapio.html';
+    }
+  }
+
+  // ── TABS ─────────────────────────────────────────────
+  function showTab(tab) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+
+    if (tab === 'login') {
+      document.getElementById('panelLogin').classList.add('active');
+      document.querySelectorAll('.tab-btn')[0].classList.add('active');
+      document.getElementById('mainTabs').style.display = '';
+    } else if (tab === 'cadastro') {
+      document.getElementById('panelCadastro').classList.add('active');
+      document.querySelectorAll('.tab-btn')[1].classList.add('active');
+      document.getElementById('mainTabs').style.display = '';
+    }
+  }
+
+  function showForgot() {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panelForgot').classList.add('active');
+    document.getElementById('mainTabs').style.display = 'none';
+  }
+
+  // ── TOGGLE SENHA ─────────────────────────────────────
+  function togglePass(inputId, btn) {
+    const input = document.getElementById(inputId);
+    const isPass = input.type === 'password';
+    input.type = isPass ? 'text' : 'password';
+    btn.innerHTML = isPass
+      ? `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`
+      : `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
+  }
+
+  // ── FORÇA DA SENHA ────────────────────────────────────
+  function checkStrength(val) {
+    let score = 0;
+    if (val.length >= 8) score++;
+    if (/[A-Z]/.test(val)) score++;
+    if (/[0-9]/.test(val)) score++;
+    if (/[^A-Za-z0-9]/.test(val)) score++;
+
+    const colors = ['#EF4444','#F97316','#EAB308','#22C55E'];
+    const labels = ['Fraca','Média','Boa','Forte 💪'];
+    for (let i = 1; i <= 4; i++) {
+      const seg = document.getElementById('s' + i);
+      seg.style.background = i <= score ? colors[score - 1] : 'var(--border)';
+    }
+    document.getElementById('strengthLabel').textContent = val.length > 0 ? labels[score - 1] || '' : '';
+  }
+
+  // ── ALERTA ────────────────────────────────────────────
+  function showAlert(id, type, msg) {
+    const el = document.getElementById(id);
+    const icon = type === 'error'
+      ? `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`
+      : `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>`;
+    el.className = `alert show ${type}`;
+    el.innerHTML = icon + msg;
+  }
+
+  function hideAlert(id) {
+    document.getElementById(id).className = 'alert';
+  }
+
+  // ── LOGIN ─────────────────────────────────────────────
+  async function handleLogin() {
+    hideAlert('alertLogin');
+    const email = document.getElementById('loginEmail').value.trim();
+    const senha = document.getElementById('loginSenha').value;
+
+    if (!email || !senha) {
+      showAlert('alertLogin', 'error', 'Preencha e-mail e senha.');
+      return;
+    }
+
+    const btn = document.getElementById('btnLogin');
+    btn.disabled = true;
+    btn.textContent = 'Entrando...';
+    btn.classList.add('loading');
+
+    const { data, error } = await sb.auth.signInWithPassword({ email, password: senha });
+
+    if (error) {
+      btn.disabled = false;
+      btn.textContent = 'Entrar na minha conta';
+      btn.classList.remove('loading');
+      const msgs = {
+        'Invalid login credentials': 'E-mail ou senha incorretos.',
+        'Email not confirmed': 'Confirme seu e-mail antes de entrar. Verifique sua caixa de entrada.',
+        'Too many requests': 'Muitas tentativas. Aguarde alguns minutos.',
+      };
+      showAlert('alertLogin', 'error', msgs[error.message] || 'Erro ao entrar. Tente novamente.');
+      return;
+    }
+
+    redirectUser(data.user.email);
+  }
+
+  // ── CADASTRO ──────────────────────────────────────────
+  async function handleCadastro() {
+    hideAlert('alertCadastro');
+    const nome    = document.getElementById('cadNome').value.trim();
+    const email   = document.getElementById('cadEmail').value.trim();
+    const senha   = document.getElementById('cadSenha').value;
+    const confirma= document.getElementById('cadConfirma').value;
+    const termos  = document.getElementById('termos').checked;
+
+    if (!nome || !email || !senha || !confirma) {
+      showAlert('alertCadastro', 'error', 'Preencha todos os campos.');
+      return;
+    }
+    if (senha !== confirma) {
+      showAlert('alertCadastro', 'error', 'As senhas não coincidem.');
+      return;
+    }
+    if (senha.length < 8) {
+      showAlert('alertCadastro', 'error', 'A senha deve ter pelo menos 8 caracteres.');
+      return;
+    }
+    if (!termos) {
+      showAlert('alertCadastro', 'error', 'Aceite os Termos de Uso para continuar.');
+      return;
+    }
+
+    const btn = document.getElementById('btnCadastro');
+    btn.disabled = true;
+    btn.textContent = 'Criando conta...';
+    btn.classList.add('loading');
+
+    const { data, error } = await sb.auth.signUp({
+      email,
+      password: senha,
+      options: {
+        data: { full_name: nome },
+        emailRedirectTo: window.location.origin + '/login.html'
+      }
+    });
+
+    btn.disabled = false;
+    btn.textContent = 'Criar minha conta';
+    btn.classList.remove('loading');
+
+    if (error) {
+      const msgs = {
+        'User already registered': 'Este e-mail já está cadastrado. Faça login.',
+        'Password should be at least 6 characters': 'Senha muito curta.',
+      };
+      showAlert('alertCadastro', 'error', msgs[error.message] || 'Erro ao cadastrar. Tente novamente.');
+      return;
+    }
+
+    showAlert('alertCadastro', 'success',
+      `✅ Conta criada! Enviamos um e-mail de confirmação para <strong>${email}</strong>. Clique no link para ativar sua conta.`
+    );
+  }
+
+  // ── ESQUECI SENHA ─────────────────────────────────────
+  async function handleForgot() {
+    hideAlert('alertForgot');
+    const email = document.getElementById('forgotEmail').value.trim();
+
+    if (!email) {
+      showAlert('alertForgot', 'error', 'Digite seu e-mail cadastrado.');
+      return;
+    }
+
+    const btn = document.getElementById('btnForgot');
+    btn.disabled = true;
+    btn.textContent = 'Enviando...';
+    btn.classList.add('loading');
+
+    const { error } = await sb.auth.resetPasswordForEmail(email, {
+      redirectTo: window.location.origin + '/reset-senha.html'
+    });
+
+    btn.disabled = false;
+    btn.textContent = 'Enviar link de recuperação';
+    btn.classList.remove('loading');
+
+    if (error) {
+      showAlert('alertForgot', 'error', 'Erro ao enviar. Verifique o e-mail e tente novamente.');
+      return;
+    }
+
+    showAlert('alertForgot', 'success',
+      `📧 Link enviado para <strong>${email}</strong>! Verifique sua caixa de entrada (e o spam).`
+    );
+  }
+
+  // ── MODAIS ────────────────────────────────────────────
+  function showTermos(e) {
+    e.preventDefault();
+    document.getElementById('modalTermos').style.display = 'block';
+  }
+
+  function showPrivacidade(e) {
+    e.preventDefault();
+    document.getElementById('modalPriv').style.display = 'block';
+  }
+
+  // Fechar modal clicando fora
+  ['modalTermos','modalPriv'].forEach(id => {
+    document.getElementById(id).addEventListener('click', function(e) {
+      if (e.target === this) this.style.display = 'none';
+    });
+  });
+
+  // Enter para submeter
+  document.getElementById('loginSenha').addEventListener('keydown', e => {
+    if (e.key === 'Enter') handleLogin();
+  });
+  document.getElementById('cadConfirma').addEventListener('keydown', e => {
+    if (e.key === 'Enter') handleCadastro();
+  });
+  document.getElementById('forgotEmail').addEventListener('keydown', e => {
+    if (e.key === 'Enter') handleForgot();
+  });
+</script>
+</body>
+</html>
