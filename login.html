@@ -734,8 +734,15 @@
       return;
     }
 
+    // Se tem sessão ativa, redireciona direto para o quiz
+    if (data.session) {
+      window.location.href = 'calculadora-pet-FINAL.html';
+      return;
+    }
+
+    // Se não tem sessão (confirmação de email ativa), mostra mensagem
     showAlert('alertCadastro', 'success',
-      `✅ Conta criada! Enviamos um e-mail de confirmação para <strong>${email}</strong>. Clique no link para ativar sua conta.`
+      `✅ Conta criada! Acesse seu e-mail <strong>${email}</strong> e clique no link de confirmação para ativar sua conta.`
     );
   }
 
