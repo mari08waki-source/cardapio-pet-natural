@@ -345,11 +345,46 @@
       margin-top: 20px;
     }
 
+
+    /* ── CARD PHOTO BANNER ─── */
+    .card-photo {
+      position: relative; overflow: hidden;
+      height: 168px; border-radius: 24px 24px 0 0;
+    }
+    .card-photo img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+    .card-photo-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, rgba(19,107,54,0.82) 100%);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: flex-end;
+      padding: 16px; text-align: center; color: white;
+    }
+    .card-photo-title {
+      font-size: 1.05rem; font-weight: 800;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.3); margin-bottom: 4px;
+    }
+    .card-photo-sub {
+      font-size: .78rem; opacity: .92;
+    }
+    .card-trust {
+      display: flex; gap: 6px; justify-content: center;
+      flex-wrap: wrap; margin-top: 10px;
+    }
+    .card-trust-item {
+      background: rgba(255,255,255,0.22);
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 20px; padding: 3px 10px;
+      font-size: .72rem; font-weight: 700; color: white;
+    }
+
     /* ── MOBILE ─── */
     @media (max-width: 480px) {
       body { padding: 16px; background: var(--white); justify-content: flex-start; padding-top: 40px; }
       .card { border-radius: 20px; box-shadow: 0 8px 32px rgba(0,0,0,0.10); }
       .panel { padding: 22px 20px 28px; }
+      .card-photo { height: 140px; border-radius: 20px 20px 0 0; }
     }
   </style>
 </head>
@@ -391,6 +426,20 @@
 </a>
 
 <div class="card">
+
+  <!-- BANNER COM FOTO -->
+  <div class="card-photo">
+    <img src="https://images.unsplash.com/photo-1450778869180-41d0601e046e?w=600&h=340&fit=crop&auto=format" alt="Pets saudáveis e felizes" />
+    <div class="card-photo-overlay">
+      <div class="card-photo-title">🐾 Cardápio Pet Natural</div>
+      <div class="card-photo-sub">Receitas personalizadas para o seu pet</div>
+      <div class="card-trust">
+        <span class="card-trust-item">🌿 100% Natural</span>
+        <span class="card-trust-item">✅ Fácil de preparar</span>
+        <span class="card-trust-item">❤️ Pets mais saudáveis</span>
+      </div>
+    </div>
+  </div>
 
   <!-- TABS -->
   <div class="tabs" id="mainTabs">
