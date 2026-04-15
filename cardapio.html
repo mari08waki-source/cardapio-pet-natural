@@ -481,12 +481,12 @@
     const restricao = d.pet_restricao || 'nenhuma';
 
     // Hero
-    const emoji = tipo === 'gato' ? '🐱' : '🐶';
+    
     const porteLabel = {pequeno:'Porte Pequeno', medio:'Porte Médio', grande:'Porte Grande'}[porte] || porte;
     const faseLabel  = {filhote:'Filhote', adulto:'Adulto', senior:'Sênior', gestante:'Gestante'}[fase] || fase;
     const tipoLabel  = tipo === 'gato' ? 'Gato' : 'Cachorro';
 
-    document.getElementById('heroTitle').textContent = `Cardápio de ${petNome} ${emoji}`;
+    document.getElementById('heroTitle').textContent = `Cardápio de ${petNome} 🐾`;
     document.getElementById('heroSub').textContent = `5 refeições personalizadas para ${petNome} — com muito carinho! 💚`;
 
     const petImgMap = {
@@ -717,7 +717,7 @@
           'Misture com o caldo de frango até atingir consistência úmida e cremosa.',
           'Sirva em temperatura ambiente (nunca gelado — gatos não gostam!).',
         ],
-        benefits: ['💪 Taurina', '🐱 Alta palatabilidade', '💧 Hidratação extra'],
+        benefits: ['💪 Taurina', '✨ Alta palatabilidade', '💧 Hidratação extra'],
         tip: 'Gatos são carnívoros obrigatórios — a proteína animal deve compor 80%+ da dieta.',
       },
       {
@@ -799,9 +799,9 @@
       { icon: '🌡️', text: '<strong>Temperatura ideal:</strong> nunca sirva alimentos gelados direto da geladeira. Aqueça em temperatura ambiente ou levemente morno.' },
     ];
     const extras = tipo === 'gato'
-      ? [{ icon: '🐱', text: '<strong>Gatos e carboidratos:</strong> gatos não precisam de arroz ou grãos. Proteína animal é a base. Carboidratos são desnecessários.' }]
+      ? [{ icon: '🐾', text: '<strong>Gatos e carboidratos:</strong> gatos não precisam de arroz ou grãos. Proteína animal é a base. Carboidratos são desnecessários.' }]
       : fase === 'filhote'
-        ? [{ icon: '🐶', text: '<strong>Filhotes crescem rápido:</strong> divida a alimentação em 3-4 refeições menores por dia. O estômago deles é menor e metabolizam mais rápido.' }]
+        ? [{ icon: '🐾', text: '<strong>Filhotes crescem rápido:</strong> divida a alimentação em 3-4 refeições menores por dia. O estômago deles é menor e metabolizam mais rápido.' }]
         : fase === 'senior'
           ? [{ icon: '🦴', text: '<strong>Pets sênior:</strong> reduza proteína de forma gradual se houver doença renal. Prefira textura mais macia e aumente a hidratação.' }]
           : [{ icon: '⚖️', text: '<strong>Controle o peso:</strong> pese o seu pet mensalmente. Ajuste as porções se notar ganho ou perda de peso acima de 5%.' }];
