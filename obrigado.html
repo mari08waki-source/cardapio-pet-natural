@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CardÃ¡pio Pet Natural â Compra Confirmada! ð¾</title>
+  <style>
+    :root {
+      --sage:       #1A9E50;
+      --sage-dark:  #136B36;
+      --sage-bg:    #E6F7EE;
+      --gold:       #D4920A;
+      --gold-bright:#F5B418;
+      --white:      #FFFFFF;
+      --off-white:  #FDFAF4;
+      --border:     #DDE8D8;
+      --text:       #1A1A1A;
+      --muted:      #5A6472;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: linear-gradient(160deg, #E8F5ED 0%, #F5F0E8 55%, #EBF5F0 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 20px 60px;
+    }
+
+    /* ââ BRAND ââ */
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 32px;
+      text-decoration: none;
+    }
+    .brand-icon {
+      width: 44px; height: 44px;
+      background: linear-gradient(135deg, var(--sage-dark), var(--sage));
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      color: white;
+      box-shadow: 0 4px 14px rgba(26,158,80,0.35);
+    }
+    .brand-icon svg { width: 22px; height: 22px; }
+    .brand-name {
+      font-size: 18px; font-weight: 800;
+      color: var(--sage-dark); letter-spacing: -0.3px;
+    }
+
+    /* ââ CARD PRINCIPAL ââ */
+    .card {
+      background: var(--white);
+      border-radius: 24px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+      width: 100%; max-width: 440px;
+      overflow: hidden;
+    }
+
+    /* ââ HERO FOTO ââ */
+    .hero-photo {
+      position: relative; height: 200px; overflow: hidden;
+    }
+    .hero-photo img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+    .hero-photo-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.0) 0%, rgba(19,107,54,0.88) 100%);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: flex-end;
+      padding: 20px; text-align: center; color: white;
+    }
+    .hero-badge {
+      background: rgba(255,255,255,0.2);
+      border: 1.5px solid rgba(255,255,255,0.4);
+      border-radius: 99px; padding: 4px 14px;
+      font-size: .72rem; font-weight: 700;
+      margin-bottom: 8px; backdrop-filter: blur(6px);
+    }
+    .hero-title {
+      font-size: 1.4rem; font-weight: 800;
+      line-height: 1.2; text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+
+    /* ââ CORPO ââ */
+    .body { padding: 28px 28px 32px; }
+
+    /* Ãcone de sucesso animado */
+    .success-icon {
+      width: 64px; height: 64px;
+      background: linear-gradient(135deg, var(--sage-dark), var(--sage));
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px;
+      box-shadow: 0 8px 24px rgba(26,158,80,0.35);
+      animation: popIn 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
+    }
+    @keyframes popIn {
+      from { transform: scale(0); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }
+    .success-icon svg { width: 32px; height: 32px; color: white; }
+
+    .confirm-title {
+      font-size: 1.25rem; font-weight: 800;
+      color: var(--text); text-align: center; margin-bottom: 8px;
+    }
+    .confirm-sub {
+      font-size: .9rem; color: var(--muted);
+      text-align: center; line-height: 1.5; margin-bottom: 24px;
+    }
+
+    /* ââ CHECKLIST ââ */
+    .checklist {
+      background: var(--sage-bg);
+      border-radius: 16px; padding: 18px 20px;
+      margin-bottom: 28px;
+      border: 1px solid var(--border);
+    }
+    .checklist-title {
+      font-size: .78rem; font-weight: 700;
+      color: var(--sage-dark); text-transform: uppercase;
+      letter-spacing: .5px; margin-bottom: 12px;
+    }
+    .check-item {
+      display: flex; align-items: flex-start; gap: 10px;
+      margin-bottom: 10px;
+    }
+    .check-item:last-child { margin-bottom: 0; }
+    .check-dot {
+      width: 20px; height: 20px; border-radius: 50%;
+      background: var(--sage); flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      margin-top: 1px;
+    }
+    .check-dot svg { width: 11px; height: 11px; color: white; }
+    .check-text { font-size: .85rem; color: var(--text); line-height: 1.4; }
+    .check-text strong { color: var(--sage-dark); }
+
+    /* ââ DIVISOR ââ */
+    .divider {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 24px;
+    }
+    .divider-line { flex: 1; height: 1px; background: var(--border); }
+    .divider-text {
+      font-size: .75rem; font-weight: 600; color: var(--muted);
+      text-transform: uppercase; letter-spacing: .5px;
+    }
+
+    /* ââ CARD GRUPO VIP ââ */
+    .vip-card {
+      background: linear-gradient(135deg, #136B36 0%, #1A9E50 100%);
+      border-radius: 18px; padding: 22px 20px;
+      margin-bottom: 16px; color: white; text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .vip-card::before {
+      content: '';
+      position: absolute; top: -30px; right: -30px;
+      width: 120px; height: 120px;
+      background: rgba(255,255,255,0.07);
+      border-radius: 50%;
+    }
+    .vip-card::after {
+      content: '';
+      position: absolute; bottom: -20px; left: -20px;
+      width: 80px; height: 80px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 50%;
+    }
+    .vip-photo {
+      width: 100%; height: 130px; border-radius: 12px;
+      overflow: hidden; margin-bottom: 16px;
+      border: 2px solid rgba(255,255,255,0.25);
+    }
+    .vip-photo img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+    .vip-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 99px; padding: 3px 12px;
+      font-size: .7rem; font-weight: 700;
+      margin-bottom: 10px; backdrop-filter: blur(4px);
+    }
+    .vip-title {
+      font-size: 1.1rem; font-weight: 800;
+      margin-bottom: 8px; line-height: 1.3;
+    }
+    .vip-desc {
+      font-size: .82rem; opacity: .9; line-height: 1.5;
+      margin-bottom: 18px;
+    }
+    .vip-perks {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      justify-content: center; margin-bottom: 18px;
+    }
+    .vip-perk {
+      background: rgba(255,255,255,0.18);
+      border-radius: 99px; padding: 3px 10px;
+      font-size: .7rem; font-weight: 600;
+    }
+
+    /* ââ BOTÃO WHATSAPP ââ */
+    .btn-whatsapp {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      width: 100%;
+      background: #25D366;
+      color: white; font-weight: 800; font-size: 1rem;
+      border: none; border-radius: 14px;
+      padding: 16px 20px;
+      cursor: pointer; text-decoration: none;
+      box-shadow: 0 8px 24px rgba(37,211,102,0.4);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .btn-whatsapp:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(37,211,102,0.5);
+    }
+    .btn-whatsapp svg { width: 22px; height: 22px; flex-shrink: 0; }
+
+    /* ââ BOTÃO ACESSAR ââ */
+    .btn-access {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      width: 100%;
+      background: var(--sage-bg);
+      color: var(--sage-dark); font-weight: 700; font-size: .9rem;
+      border: 1.5px solid var(--border); border-radius: 14px;
+      padding: 14px 20px;
+      cursor: pointer; text-decoration: none;
+      margin-top: 10px;
+      transition: background 0.15s;
+    }
+    .btn-access:hover { background: #d4eddf; }
+
+    /* ââ RODAPÃ ââ */
+    .footer {
+      text-align: center; font-size: .75rem;
+      color: var(--muted); margin-top: 28px; line-height: 1.6;
+    }
+
+    @media (max-width: 480px) {
+      body { padding: 20px 16px 60px; justify-content: flex-start; padding-top: 32px; }
+      .card { border-radius: 20px; }
+      .body { padding: 22px 20px 28px; }
+      .hero-photo { height: 170px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- BRAND -->
+<a class="brand" href="calculadora-pet-FINAL.html">
+  <div class="brand-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+  </div>
+  <span class="brand-name">CardÃ¡pio Pet Natural</span>
+</a>
+
+<div class="card">
+
+  <!-- HERO FOTO -->
+  <div class="hero-photo">
+    <img src="https://images.unsplash.com/photo-1601758124510-52d02ddb7cbd?w=600&h=260&fit=crop&auto=format" alt="Pet feliz e saudÃ¡vel" />
+    <div class="hero-photo-overlay">
+      <div class="hero-badge">â Pagamento Confirmado</div>
+      <div class="hero-title">Seu cardÃ¡pio estÃ¡ pronto! ð¾</div>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <!-- ÃCONE SUCESSO -->
+    <div class="success-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+
+    <div class="confirm-title">Obrigada pela sua confianÃ§a! ð</div>
+    <div class="confirm-sub">Seu acesso ao cardÃ¡pio personalizado foi liberado. Verifique seu e-mail para acessar.</div>
+
+    <!-- CHECKLIST -->
+    <div class="checklist">
+      <div class="checklist-title">ð O que acontece agora</div>
+      <div class="check-item">
+        <div class="check-dot">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="check-text"><strong>E-mail enviado</strong> â verifique sua caixa de entrada (e o spam)</div>
+      </div>
+      <div class="check-item">
+        <div class="check-dot">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="check-text"><strong>Acesso liberado</strong> â faÃ§a login para ver o cardÃ¡pio do seu pet</div>
+      </div>
+      <div class="check-item">
+        <div class="check-dot">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="check-text"><strong>5 refeiÃ§Ãµes personalizadas</strong> â com ingredientes, quantidades e modo de preparo</div>
+      </div>
+    </div>
+
+    <!-- DIVISOR -->
+    <div class="divider">
+      <div class="divider-line"></div>
+      <div class="divider-text">Oferta exclusiva para vocÃª</div>
+      <div class="divider-line"></div>
+    </div>
+
+    <!-- CARD GRUPO VIP -->
+    <div class="vip-card">
+      <div class="vip-photo">
+        <img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=500&h=180&fit=crop&auto=format" alt="Comunidade Pet Natural" />
+      </div>
+      <div class="vip-badge">ð Grupo Exclusivo</div>
+      <div class="vip-title">Entre para o Grupo VIP<br/>CardÃ¡pio Pet Natural</div>
+      <div class="vip-desc">Acesso gratuito para quem comprou hoje! Novidades, receitas bÃ´nus e lanÃ§amentos toda semana â antes de todo mundo.</div>
+      <div class="vip-perks">
+        <span class="vip-perk">ð Receitas bÃ´nus</span>
+        <span class="vip-perk">ð¢ LanÃ§amentos exclusivos</span>
+        <span class="vip-perk">ð¬ Suporte direto</span>
+        <span class="vip-perk">ð¿ Dicas semanais</span>
+      </div>
+      <!-- COLOQUE SEU LINK DO GRUPO AQUI -->
+      <a class="btn-whatsapp" href="https://chat.whatsapp.com/SEU-LINK-AQUI" target="_blank">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.121 1.532 5.851L.057 23.447a.5.5 0 0 0 .611.611l5.596-1.475A11.953 11.953 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.943 0-3.76-.524-5.318-1.435l-.38-.225-3.32.875.875-3.32-.225-.38A9.953 9.953 0 0 1 2 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></svg>
+        Entrar no Grupo VIP Gratuito
+      </a>
+    </div>
+
+    <!-- BOTÃO ACESSAR CARDÃPIO -->
+    <a class="btn-access" href="login.html">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+      Acessar meu cardÃ¡pio agora
+    </a>
+
+  </div>
+</div>
+
+<div class="footer">
+  DÃºvidas? Fale conosco pelo grupo VIP ou pelo e-mail de suporte.<br/>
+  ð¾ CardÃ¡pio Pet Natural â receitas com amor para o seu melhor amigo
+</div>
+
+</body>
+</html>
