@@ -1,0 +1,52 @@
+# Configuração Netlify — deploy estático do Cardápio Pet Natural
+# Site HTML puro, sem build step.
+
+[build]
+  publish = "."
+
+# ── PWA: service worker NUNCA cacheado ────────────────────────────────
+# Sem isso, usuários ficam presos numa versão antiga do SW.
+[[headers]]
+  for = "/service-worker.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+    Service-Worker-Allowed = "/"
+
+# ── PWA: manifest com MIME correto ────────────────────────────────────
+[[headers]]
+  for = "/manifest.json"
+  [headers.values]
+    Content-Type = "application/manifest+json; charset=utf-8"
+    Cache-Control = "public, max-age=3600"
+
+# ── Ícones: cache longo (nome fixo, mudou = reupload manual) ──────────
+[[headers]]
+  for = "/icons/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+# ── Favicon ───────────────────────────────────────────────────────────
+[[headers]]
+  for = "/favicon.png"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+# ── Imagens do app: cache médio ───────────────────────────────────────
+[[headers]]
+  for = "/*.jpg"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/*.webp"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+# ── Headers de segurança em tudo ──────────────────────────────────────
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
