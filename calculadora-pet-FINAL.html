@@ -970,6 +970,11 @@
       if(el) el.style.display='none';
     });
   }
+
+  // Se o Supabase mandar para cá por engano num link de reset, nós o redirecionamos para a tela correta.
+  if (window.location.hash.includes('type=recovery')) {
+    window.location.href = 'reset-senha.html' + window.location.hash;
+  }
 </script>
 
 <!-- NAVBAR FIXA NO TOPO -->
