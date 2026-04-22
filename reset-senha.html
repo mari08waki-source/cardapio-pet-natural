@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="manifest" href="/manifest.json"/>
+  <meta name="theme-color" content="#d4af37"/>
+  <title>Cardápio Pet Natural — Nova Senha</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    :root {
+      --sage:       #1A9E50;
+      --sage-dark:  #136B36;
+      --sage-bg:    #E6F7EE;
+      --gold:       #D4920A;
+      --white:      #FFFFFF;
+      --off-white:  #FDFAF4;
+      --border:     #DDE8D8;
+      --text:       #1A1A1A;
+      --muted:      #5A6472;
+      --error:      #DC2626;
+      --error-bg:   #FEF2F2;
+      --success:    #16A34A;
+      --success-bg: #F0FDF4;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: linear-gradient(160deg, #E8F5ED 0%, #F5F0E8 55%, #EBF5F0 100%); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+    .brand { display: flex; align-items: center; gap: 10px; margin-bottom: 28px; text-decoration: none; }
+    .brand-icon { width: 44px; height: 44px; background: linear-gradient(135deg, var(--sage-dark), var(--sage)); border-radius: 14px; display: flex; align-items: center; justify-content: center; color: white; box-shadow: 0 4px 14px rgba(26,158,80,0.35); }
+    .brand-icon svg { width: 22px; height: 22px; }
+    .brand-name { font-size: 18px; font-weight: 800; color: var(--sage-dark); letter-spacing: -0.3px; }
+    .card { background: var(--white); border-radius: 24px; box-shadow: 0 20px 60px rgba(0,0,0,0.12); width: 100%; max-width: 420px; overflow: hidden; padding: 28px; }
+    .panel-title { font-size: 20px; font-weight: 800; color: var(--text); margin-bottom: 6px; letter-spacing: -0.3px; }
+    .panel-sub { font-size: 13px; color: var(--muted); margin-bottom: 24px; line-height: 1.5; }
+    .field { margin-bottom: 16px; }
+    .field label { display: block; font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; margin-bottom: 7px; }
+    .field input { width: 100%; padding: 13px 16px; border: 1.5px solid var(--border); border-radius: 14px; font-size: 16px; color: var(--text); background: var(--off-white); outline: none; }
+    .field input:focus { border-color: var(--sage); background: var(--white); box-shadow: 0 0 0 3px rgba(26,158,80,0.12); }
+    .btn-primary { width: 100%; padding: 15px; background: linear-gradient(135deg, var(--sage) 0%, var(--sage-dark) 100%); border: none; border-radius: 99px; font-size: 15px; font-weight: 800; color: white; cursor: pointer; min-height: 52px; margin-top: 10px; }
+    .alert { display: none; padding: 12px 16px; border-radius: 12px; font-size: 13px; margin-bottom: 16px; font-weight: 500; }
+    .alert.show { display: flex; align-items: flex-start; gap: 8px; }
+    .alert.error { background: var(--error-bg); color: var(--error); border: 1px solid #FECACA; }
+    .alert.success { background: var(--success-bg); color: var(--success); border: 1px solid #BBF7D0; }
+  </style>
+</head>
+<body>
+  <a class="brand" href="calculadora-pet-FINAL.html">
+    <div class="brand-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+    </div>
+    <span class="brand-name">Cardápio Pet Natural</span>
+  </a>
+
+  <div class="card">
+    <div class="panel-title">Criar Nova Senha 🔒</div>
+    <div class="panel-sub">Digite sua nova senha abaixo para redefinir o seu acesso.</div>
+
+    <div class="alert" id="alertBox"></div>
+
+    <form onsubmit="event.preventDefault(); updatePassword();">
+      <div class="field">
+        <label>Nova Senha</label>
+        <input type="password" id="novaSenha" placeholder="Mínimo 8 caracteres" required minlength="8" />
+      </div>
+
+      <button type="submit" class="btn-primary" id="btnSalvar">
+        Salvar e Entrar
+      </button>
+    </form>
+  </div>
+
+  <script>
+    const { createClient } = supabase;
+    const sb = createClient(
+      'https://fzmqdevzdwluhasvxswi.supabase.co',
+      'sb_publishable_FJ921pqk3-vg8gD68euDTg_H1TtAZdz'
+    );
+
+    function showAlert(type, msg) {
+      const el = document.getElementById('alertBox');
+      el.className = `alert show ${type}`;
+      el.innerHTML = msg;
+    }
+
+    sb.auth.onAuthStateChange((event, session) => {
+      if (event == "PASSWORD_RECOVERY") {
+        console.log("Pronto para recuperar senha");
+      }
+    });
+
+    async function updatePassword() {
+      const novaSenha = document.getElementById('novaSenha').value;
+      if(novaSenha.length < 8) {
+        showAlert('error', 'A senha deve ter no mínimo 8 caracteres.');
+        return;
+      }
+
+      const btn = document.getElementById('btnSalvar');
+      btn.disabled = true;
+      btn.textContent = 'Salvando...';
+
+      const { data, error } = await sb.auth.updateUser({ password: novaSenha });
+
+      btn.disabled = false;
+      btn.textContent = 'Salvar e Entrar';
+
+      if (error) {
+        showAlert('error', 'Erro ao atualizar: ' + error.message);
+      } else {
+        showAlert('success', 'Senha atualizada com sucesso! Redirecionando...');
+        setTimeout(() => {
+          window.location.href = 'login.html';
+        }, 2000);
+      }
+    }
+  </script>
+</body>
+</html>
