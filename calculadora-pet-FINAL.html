@@ -1148,8 +1148,12 @@ src="https://www.facebook.com/tr?id=938946219017089&ev=PageView&noscript=1"
 
     <!-- STEP 6 -->
     <div class="question" id="step6">
-      <h2>Seu nome e o nome do pet</h2>
-      <p class="subtitle">Para personalizar o resultado pra vocês</p>
+      <h2>Só mais um passo!</h2>
+      <p class="subtitle">Para onde devemos enviar o seu cardápio personalizado?</p>
+      <div class="input-group">
+        <label>Seu melhor e-mail</label>
+        <input type="email" id="tutorEmail" placeholder="exemplo@email.com" oninput="checkInputs()" />
+      </div>
       <div class="input-group">
         <label>Seu nome</label>
         <input type="text" id="tutorName" placeholder="Ex: Maria" oninput="checkInputs()" />
@@ -1246,7 +1250,17 @@ src="https://www.facebook.com/tr?id=938946219017089&ev=PageView&noscript=1"
           <div class="price-note">pagamento único · acesso imediato</div>
         </div>
 
-        <a class="btn-cta" href="https://pay.kiwify.com.br/XfpnGbz" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div style="background:rgba(255,255,255,0.1); border-radius:12px; padding:16px; margin-bottom:20px; text-align:left; display:flex; gap:12px; align-items:center;">
+          <div style="color:var(--gold-bright); flex-shrink:0;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+          </div>
+          <div>
+            <div style="font-size:14px; font-weight:800; color:#fff; margin-bottom:4px;">Risco Zero: Garantia de 7 Dias</div>
+            <div style="font-size:12px; color:#e0e0e0; line-height:1.4;">Se você ou seu pet não amarem as receitas, devolvemos 100% do seu dinheiro. Sem perguntas.</div>
+          </div>
+        </div>
+
+        <a class="btn-cta" href="https://pay.kiwify.com.br/XfpnGbz" target="_blank" rel="noopener" onclick="if(typeof fbq === 'function') fbq('track', 'InitiateCheckout');" style="text-decoration:none;">
           Quero o Cardápio Completo
         </a>
         <div class="urgency">Oferta válida por tempo limitado</div>
@@ -1318,7 +1332,10 @@ src="https://www.facebook.com/tr?id=938946219017089&ev=PageView&noscript=1"
   function checkInputs() {
     const name = document.getElementById('tutorName').value.trim();
     const pet = document.getElementById('petName').value.trim();
-    document.getElementById('next6').disabled = !(name && pet);
+    const emailEl = document.getElementById('tutorEmail');
+    const email = emailEl ? emailEl.value.trim() : '';
+    const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    document.getElementById('next6').disabled = !(name && pet && emailValid);
   }
 
   function nextStep(step) {
@@ -1446,6 +1463,7 @@ src="https://www.facebook.com/tr?id=938946219017089&ev=PageView&noscript=1"
     document.querySelectorAll('.btn-next').forEach(b => b.disabled = true);
     document.getElementById('petName').value = '';
     document.getElementById('tutorName').value = '';
+    if (document.getElementById('tutorEmail')) document.getElementById('tutorEmail').value = '';
     answers = {};
 
     // Reseta barra de progresso
