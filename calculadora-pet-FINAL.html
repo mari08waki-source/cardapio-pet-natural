@@ -1364,7 +1364,7 @@ src="https://www.facebook.com/tr?id=938946219017089&ev=PageView&noscript=1"
     setTimeout(showResult, 2800);
   }
 
-  function showResult() {
+  async function showResult() {
     document.getElementById('loadingScreen').classList.remove('active');
 
     const petName = document.getElementById('petName').value;
@@ -1373,6 +1373,14 @@ src="https://www.facebook.com/tr?id=938946219017089&ev=PageView&noscript=1"
     const fase = answers[2];
     const porte = answers[3];
     const restricao = answers[4];
+    const alimentacao = answers[5] || '';
+
+    // Se o usuário estiver logado (já comprou/criou conta), salva e vai direto pro dashboard
+    if (currentUser) {
+      await saveCardapio(petName, tipo, fase, porte, restricao, alimentacao);
+      window.location.href = 'cardapio.html';
+      return;
+    }
 
     // Personaliza título
     const porteLabel = { mini: 'porte mini', medio: 'porte médio', grande: 'porte grande' }[porte] || '';
@@ -1383,11 +1391,7 @@ src="https://www.facebook.com/tr?id=938946219017089&ev=PageView&noscript=1"
     document.getElementById('upsellTitle').textContent = `Cardápio Completo do ${petName}`;
     document.getElementById('upsellDesc').textContent = `Tenha o plano alimentar completo para ${petName} com receitas, porções exatas para ${porteLabel}, lista de compras e dicas de preparo — tudo em PDF pra baixar agora.`;
 
-    // Salva no Supabase se estiver logado
-    const alimentacao = answers[5] || '';
-    saveCardapio(petName, tipo, fase, porte, restricao, alimentacao);
-
-    // Gera cardápio baseado nas respostas
+    // Gera cardápio baseado nas respostas para o usuário anônimo (lead)
     const meals = getMealPlan(tipo, fase, porte, restricao);
     const mealPlanDiv = document.getElementById('mealPlan');
     mealPlanDiv.innerHTML = '';
