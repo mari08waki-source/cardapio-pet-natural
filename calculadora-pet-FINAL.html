@@ -336,6 +336,8 @@
       background: var(--off-white);
     }
 
+    #next1, #next2, #next3, #next4, #next5 { display: none !important; }
+
     .btn-next {
       flex: 2;
       padding: 14px;
@@ -1028,11 +1030,11 @@ src="https://www.facebook.com/tr?id=1662091188448845&ev=PageView&noscript=1"
 
   <!-- HEADER -->
   <div class="header">
-    <div class="header-icon">
-      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+    <div class="header-icon" style="background: var(--sage-bg); color: var(--sage);">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
     </div>
-    <h1>Calculadora de Cardápio Pet</h1>
-    <p>Descubra o que seu pet realmente precisa comer</p>
+    <h1 style="font-size: 19px; line-height: 1.25; color: var(--text); letter-spacing: -0.5px; margin-bottom: 12px;">Será que a alimentação do seu pet está ideal?</h1>
+
     <div class="progress-bar">
       <div class="progress-fill" id="progressFill" style="width: 16%"></div>
     </div>
@@ -1086,7 +1088,7 @@ src="https://www.facebook.com/tr?id=1662091188448845&ev=PageView&noscript=1"
     <!-- STEP 3 -->
     <div class="question" id="step3">
       <h2>Qual o peso do seu pet?</h2>
-      <p class="subtitle">Usamos isso para calcular as porções certas</p>
+      <p class="subtitle">Usamos isso para calcular as porções exatas</p>
       <div class="options">
         <button class="option-btn text-only" onclick="select(this, 3, 'mini')">
           Até 5kg (porte mini/pequeno)
@@ -1127,17 +1129,17 @@ src="https://www.facebook.com/tr?id=1662091188448845&ev=PageView&noscript=1"
 
     <!-- STEP 5 -->
     <div class="question" id="step5">
-      <h2>Como é a alimentação atual?</h2>
-      <p class="subtitle">Queremos entender o ponto de partida</p>
+      <h2>Como é a alimentação dele hoje?</h2>
+      <p class="subtitle">Seja sincero, queremos entender a realidade</p>
       <div class="options">
         <button class="option-btn text-only" onclick="select(this, 5, 'racao')">
-          Só ração industrial
+          Apenas o formato tradicional seco
         </button>
         <button class="option-btn text-only" onclick="select(this, 5, 'misto')">
-          Ração + comida natural
+          Misto (Tradicional seco + opções frescas)
         </button>
         <button class="option-btn text-only" onclick="select(this, 5, 'natural')">
-          Alimentação natural completa
+          Apenas opções frescas/preparo caseiro
         </button>
       </div>
       <div class="nav-btns">
@@ -1148,8 +1150,8 @@ src="https://www.facebook.com/tr?id=1662091188448845&ev=PageView&noscript=1"
 
     <!-- STEP 6 -->
     <div class="question" id="step6">
-      <h2>Só mais um passo!</h2>
-      <p class="subtitle">Para onde devemos enviar o seu cardápio personalizado?</p>
+      <h2 style="color: var(--sage); font-size: 20px;">Seu resultado está pronto!</h2>
+      <p class="subtitle">Digite seus dados para ver o cardápio do seu pet.</p>
       <div class="input-group">
         <label>Seu melhor e-mail</label>
         <input type="email" id="tutorEmail" placeholder="exemplo@email.com" oninput="checkInputs()" />
@@ -1326,7 +1328,14 @@ src="https://www.facebook.com/tr?id=1662091188448845&ev=PageView&noscript=1"
     btns.forEach(b => b.classList.remove('selected'));
     btn.classList.add('selected');
     answers[step] = value;
-    document.getElementById(`next${step}`).disabled = false;
+    
+    if (step < 6) {
+      setTimeout(() => {
+        nextStep(step + 1);
+      }, 350);
+    } else {
+      document.getElementById(`next${step}`).disabled = false;
+    }
   }
 
   function checkInputs() {
