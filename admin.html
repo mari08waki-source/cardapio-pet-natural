@@ -384,12 +384,25 @@ src="https://www.facebook.com/tr?id=1662091188448845&ev=PageView&noscript=1"
         return;
       }
 
-      const { data: { session } } = await sb.auth.getSession();
+      // Tentativa de pegar sessão com delay para garantir persistência do cookie
+      let session = null;
+      for (let i = 0; i < 3; i++) {
+        const { data } = await sb.auth.getSession();
+        if (data.session) {
+          session = data.session;
+          break;
+        }
+        await new Promise(r => setTimeout(r, 800)); // Aguarda 800ms antes de tentar de novo
+      }
+
       if (session && session.user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
         unlock();
         loadAll();
       } else {
-        window.location.href = '/login';
+        console.warn("Sessão não encontrada ou não autorizada. Redirecionando...");
+        setTimeout(() => {
+          window.location.href = 'login.html';
+        }, 1000);
       }
     })();
 
