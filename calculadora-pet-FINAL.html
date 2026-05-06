@@ -1085,13 +1085,10 @@ src="https://www.facebook.com/tr?id=1662091188448845&ev=PageView&noscript=1"
 
     <!-- STEP 3 -->
     <div class="question" id="step3">
-<<<<<<< HEAD
       <h2>Qual o peso do seu pet?</h2>
       <p class="subtitle">Usamos isso para calcular as porções exatas</p>
-=======
       <h2>Qual o porte desse grande amigo?</h2>
       <p class="subtitle">Isso nos ajuda a definir a proporção ideal de energia</p>
->>>>>>> 110742e (Jarvis: Unificação e Sistema Admin 2.0)
       <div class="options">
         <button class="option-btn text-only" onclick="select(this, 3, 'mini')">
           Porte Pequeno / Delicado
@@ -1132,7 +1129,6 @@ src="https://www.facebook.com/tr?id=1662091188448845&ev=PageView&noscript=1"
 
     <!-- STEP 5 -->
     <div class="question" id="step5">
-<<<<<<< HEAD
       <h2>Como é a alimentação dele hoje?</h2>
       <p class="subtitle">Seja sincero, queremos entender a realidade</p>
       <div class="options">
@@ -1144,7 +1140,6 @@ src="https://www.facebook.com/tr?id=1662091188448845&ev=PageView&noscript=1"
         </button>
         <button class="option-btn text-only" onclick="select(this, 5, 'natural')">
           Apenas opções frescas/preparo caseiro
-=======
       <h2>Como é o momento da refeição hoje?</h2>
       <p class="subtitle">Entender o presente para transformar o futuro</p>
       <div class="options">
@@ -1156,7 +1151,6 @@ src="https://www.facebook.com/tr?id=1662091188448845&ev=PageView&noscript=1"
         </button>
         <button class="option-btn text-only" onclick="select(this, 5, 'natural')">
           Já iniciamos na Nutrição Natural
->>>>>>> 110742e (Jarvis: Unificação e Sistema Admin 2.0)
         </button>
       </div>
       <div class="nav-btns">
@@ -1167,13 +1161,10 @@ src="https://www.facebook.com/tr?id=1662091188448845&ev=PageView&noscript=1"
 
     <!-- STEP 6 -->
     <div class="question" id="step6">
-<<<<<<< HEAD
       <h2 style="color: var(--sage); font-size: 20px;">Seu resultado está pronto!</h2>
       <p class="subtitle">Digite seus dados para ver o cardápio do seu pet.</p>
-=======
       <h2>Quase lá! Estamos preparando algo especial.</h2>
       <p class="subtitle">Para onde devemos enviar o Relatório de Vitalidade e o Plano Nutricional?</p>
->>>>>>> 110742e (Jarvis: Unificação e Sistema Admin 2.0)
       <div class="input-group">
         <label>Seu e-mail de tutor consciente</label>
         <input type="email" id="tutorEmail" placeholder="exemplo@email.com" oninput="checkInputs()" />
@@ -1423,7 +1414,6 @@ src="https://www.facebook.com/tr?id=1662091188448845&ev=PageView&noscript=1"
     btns.forEach(b => b.classList.remove('selected'));
     btn.classList.add('selected');
     answers[step] = value;
-<<<<<<< HEAD
     
     if (step < 6) {
       setTimeout(() => {
@@ -1431,7 +1421,6 @@ src="https://www.facebook.com/tr?id=1662091188448845&ev=PageView&noscript=1"
       }, 350);
     } else {
       document.getElementById(`next${step}`).disabled = false;
-=======
     document.getElementById(`next${step}`).disabled = false;
 
     // Efeito de Curiosidade (Dopamina)
@@ -1440,7 +1429,6 @@ src="https://www.facebook.com/tr?id=1662091188448845&ev=PageView&noscript=1"
       insightEl.textContent = insights[step];
       insightEl.style.opacity = '1';
       setTimeout(() => { insightEl.style.opacity = '0.7'; }, 2000);
->>>>>>> 110742e (Jarvis: Unificação e Sistema Admin 2.0)
     }
   }
 
@@ -1499,14 +1487,11 @@ src="https://www.facebook.com/tr?id=1662091188448845&ev=PageView&noscript=1"
     setTimeout(showResult, 500);
   }
 
-<<<<<<< HEAD
   async function showResult() {
     document.getElementById('loadingScreen').classList.remove('active');
-=======
   function showResult() {
     const loading = document.getElementById('loadingScreen');
     if (loading) loading.classList.remove('active');
->>>>>>> 110742e (Jarvis: Unificação e Sistema Admin 2.0)
 
     const petNameInput = document.getElementById('petName');
     const tutorNameInput = document.getElementById('tutorName');
@@ -1518,7 +1503,6 @@ src="https://www.facebook.com/tr?id=1662091188448845&ev=PageView&noscript=1"
     const fase = answers[2];
     const porte = answers[3];
     const restricao = answers[4];
-<<<<<<< HEAD
     const alimentacao = answers[5] || '';
 
     // Se o usuário estiver logado (já comprou/criou conta), salva e vai direto pro dashboard
@@ -1548,7 +1532,6 @@ src="https://www.facebook.com/tr?id=1662091188448845&ev=PageView&noscript=1"
         window.scrollTo({ top: 0, behavior: 'smooth' });
       });
     });
-=======
     const pesoValue = porte === 'mini' ? 4 : (porte === 'medio' ? 12 : 25);
 
     // ── CÁLCULO DE VITALIDADE ──
@@ -1615,7 +1598,6 @@ src="https://www.facebook.com/tr?id=1662091188448845&ev=PageView&noscript=1"
 
     document.getElementById('resultScreen').classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
->>>>>>> 110742e (Jarvis: Unificação e Sistema Admin 2.0)
     document.querySelector('.header').style.display = 'none';
     document.querySelector('.hero-wrap').style.display = 'none';
   }
