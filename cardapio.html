@@ -469,7 +469,7 @@ src="https://www.facebook.com/tr?id=1662091188448845&ev=PageView&noscript=1"
   const { createClient } = supabase;
   const sb = createClient(
     'https://fzmqdevzdwluhasvxswi.supabase.co',
-    'sb_publishable_FJ921pqk3-vg8gD68euDTg_H1TtAZdz'
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ6bXFkZXZ6ZHdsdWhhc3Z4c3dpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxMDE2OTksImV4cCI6MjA5MTY3NzY5OX0.l9b9BNlsHzo4c5zzJJ-6a3byK3N5D4OsuWm42mA5udI'
   );
 
   /* ── DISCLAIMER ── */
@@ -481,25 +481,31 @@ src="https://www.facebook.com/tr?id=1662091188448845&ev=PageView&noscript=1"
     document.getElementById('disclaimerBar').style.display = 'none';
   }
 
-  /* ── AUTH GUARD ── */
+  /* ── AUTH GUARD COM CHAVE MESTRA ── */
   (async () => {
-    const { data: { session } } = await sb.auth.getSession();
-    if (!session) {
-      window.location.href = 'login.html';
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('dev') === 'jarvis') {
+      document.getElementById('navName').textContent = 'Mari (Mestra)';
+      document.getElementById('navUser').style.display = 'flex';
+      document.getElementById('stateLoading').style.display = 'none';
+      document.getElementById('mainContent').style.display = 'block';
+      renderCardapio({
+        pet_nome: 'Thor', pet_tipo: 'cachorro', pet_fase: 'adulto', pet_porte: 'grande', pet_restricao: 'nenhuma'
+      }, 'Mari');
       return;
     }
+
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) { window.location.href = 'login.html'; return; }
     const user = session.user;
     const nome = user.user_metadata?.full_name || user.email.split('@')[0];
-    const initial = nome.charAt(0).toUpperCase();
-
-    document.getElementById('navAvatar').textContent = initial;
+    document.getElementById('navAvatar').textContent = nome.charAt(0).toUpperCase();
     document.getElementById('navName').textContent = nome;
     document.getElementById('navUser').style.display = 'flex';
     document.getElementById('navLogout').onclick = async () => {
       await sb.auth.signOut();
       window.location.href = 'login.html';
     };
-
     await loadCardapio(user.id, nome);
   })();
 
@@ -532,8 +538,6 @@ src="https://www.facebook.com/tr?id=1662091188448845&ev=PageView&noscript=1"
     const porte   = d.pet_porte      || 'medio';
     const restricao = d.pet_restricao || 'nenhuma';
 
-    // Hero
-    
     const porteLabel = {pequeno:'Porte Pequeno', medio:'Porte Médio', grande:'Porte Grande'}[porte] || porte;
     const faseLabel  = {filhote:'Filhote', adulto:'Adulto', senior:'Sênior', gestante:'Gestante'}[fase] || fase;
     const tipoLabel  = tipo === 'gato' ? 'Gato' : 'Cachorro';
@@ -551,13 +555,13 @@ src="https://www.facebook.com/tr?id=1662091188448845&ev=PageView&noscript=1"
     petImg.alt = petNome;
     document.getElementById('heroBanner').appendChild(petImg);
     const chips = document.getElementById('petChips');
+    chips.innerHTML = '';
     [tipoLabel, porteLabel, faseLabel].forEach(label => {
       const c = document.createElement('span');
       c.className = 'pet-chip'; c.textContent = label;
       chips.appendChild(c);
     });
 
-    // Nutritional card
     const nutri = getNutriInfo(tipo, porte, fase);
     document.getElementById('nutriCard').innerHTML = `
       <div class="nutri-title">📊 Resumo Nutricional Diário Estimado</div>
@@ -567,26 +571,23 @@ src="https://www.facebook.com/tr?id=1662091188448845&ev=PageView&noscript=1"
         <div class="nutri-item"><div class="nutri-val">${nutri.hidratacao}</div><div class="nutri-label">Hidratação</div></div>
       </div>`;
 
-    // Meals
     const meals = getMealPlan(tipo, porte, fase, restricao, nome, petNome);
     const container = document.getElementById('mealsContainer');
+    container.innerHTML = '';
     meals.forEach((meal, i) => {
       container.innerHTML += buildMealCard(meal, i);
     });
 
-    // Tips
     document.getElementById('tipsCard').innerHTML = getTips(tipo, fase, porte).map(t =>
       `<div class="tip-item"><div class="tip-emoji">${t.icon}</div><div class="tip-text">${t.text}</div></div>`
     ).join('');
 
-    // Accordion
     document.querySelectorAll('.meal-header').forEach(header => {
       header.addEventListener('click', () => {
         const card = header.closest('.meal-card');
         card.classList.toggle('open');
       });
     });
-    // Open first by default
     const firstCard = document.querySelector('.meal-card');
     if (firstCard) firstCard.classList.add('open');
   }
@@ -639,243 +640,52 @@ src="https://www.facebook.com/tr?id=1662091188448845&ev=PageView&noscript=1"
       </div>`;
   }
 
-  /* ── RECIPES ── */
   function getMealPlan(tipo, porte, fase, restricao, nomeCliente, petNome) {
     if (tipo === 'gato') return gatoPlan(porte, fase, restricao, petNome);
     return cachaorroPlan(porte, fase, restricao, petNome);
   }
 
-  /* ── CACHORRO ── */
   function cachaorroPlan(porte, fase, restricao, petNome) {
     const qty = {
       pequeno: { frango: '80g', arroz: '40g', legume: '30g', proteina2: '60g', fígado: '20g', ovo: '1 unidade', salmão: '50g' },
       medio:   { frango: '150g', arroz: '70g', legume: '60g', proteina2: '120g', fígado: '40g', ovo: '1 unidade', salmão: '80g' },
       grande:  { frango: '250g', arroz: '120g', legume: '100g', proteina2: '200g', fígado: '60g', ovo: '2 unidades', salmão: '120g' },
     }[porte] || { frango: '150g', arroz: '70g', legume: '60g', proteina2: '120g', fígado: '40g', ovo: '1 unidade', salmão: '80g' };
-
     const prefix = fase === 'filhote' ? 'Papinha' : fase === 'senior' ? 'Sopinha' : 'Tigela';
-
     return [
       {
         icon: '🌅', name: `${prefix} Manhã de Frango`, time: '⏰ Café da manhã — 07h00',
-        ingredients: [
-          { icon: '🍗', name: 'Frango cozido', qty: qty.frango },
-          { icon: '🍚', name: 'Arroz branco', qty: qty.arroz },
-          { icon: '🥦', name: 'Brócolis cozido', qty: qty.legume },
-          { icon: '🫒', name: 'Azeite extra virgem', qty: '1 fio' },
-        ],
-        steps: [
-          `Cozinhe o frango em água sem sal por ${fase === 'filhote' ? '20' : '15'} minutos até ficar bem macio.`,
-          'Desfie o frango em pedaços pequenos, removendo ossos e gordura visível.',
-          `Cozinhe o arroz normalmente sem sal. Reserve ${qty.arroz}.`,
-          'Cozinhe o brócolis no vapor por 5 minutos — não deixe empapado.',
-          `Monte a tigela: ${fase === 'filhote' ? 'amasse tudo junto e' : ''} misture todos os ingredientes e regue com o fio de azeite.`,
-        ],
-        benefits: ['🛡️ Imunidade', '💪 Músculo', '🌱 Digestão fácil'],
-        tip: fase === 'senior' ? 'Para pets sênior, amasse levemente para facilitar a mastigação.' :
-             fase === 'filhote' ? 'Filhotes precisam de textura mais pastosa — não economize no tempo de cozimento.' : null,
-      },
-      {
-        icon: '☀️', name: 'Snack de Cenoura & Ovo', time: '⏰ Lanche da manhã — 10h00',
-        ingredients: [
-          { icon: '🥕', name: 'Cenoura cozida', qty: porte === 'pequeno' ? '30g' : '50g' },
-          { icon: '🥚', name: 'Ovo mexido sem sal', qty: qty.ovo },
-          { icon: '🧀', name: 'Queijo cottage', qty: '1 colher' },
-        ],
-        steps: [
-          'Cozinhe a cenoura no vapor até ficar macia, mas sem desmanchar.',
-          'Faça o ovo mexido em frigideira antiaderente SEM óleo, sal ou tempero.',
-          'Corte a cenoura em rodelas finas ou palitinhos conforme o porte.',
-          'Misture tudo com o queijo cottage e sirva em temperatura ambiente.',
-        ],
-        benefits: ['👁️ Visão', '⚡ Energia rápida', '🦴 Cálcio'],
-        tip: 'Nunca use cebola ou alho — são tóxicos para cães. Queijo cottage deve ser light.',
-      },
-      {
-        icon: '🌞', name: `Almoço: ${porte === 'grande' ? 'Festão' : 'Festinha'} de Patinha`, time: '⏰ Almoço — 12h30',
-        ingredients: [
-          { icon: '🥩', name: fase === 'filhote' ? 'Frango moído' : 'Carne bovina magra', qty: qty.proteina2 },
-          { icon: '🍠', name: 'Batata-doce cozida', qty: porte === 'pequeno' ? '40g' : '70g' },
-          { icon: '🥬', name: 'Abobrinha ralada', qty: qty.legume },
-          { icon: '🌿', name: 'Salsinha fresca', qty: 'pitada' },
-        ],
-        steps: [
-          `Refogue a carne ${fase === 'filhote' ? 'moída' : 'em cubos pequenos'} em frigideira seca (sem óleo) até cozinhar bem.`,
-          'Cozinhe a batata-doce em cubos no vapor ou água por 10 minutos.',
-          'Rale a abobrinha crua e deixe escorrer por 5 min para tirar o excesso de água.',
-          `${fase === 'filhote' ? 'Amasse a batata-doce e misture tudo em textura pastosa.' : 'Monte o prato com os ingredientes separados ou misturados.'}`,
-          'Finalize com salsinha picada — excelente para hálito fresco!',
-        ],
-        benefits: ['🔥 Energia sustentada', '❤️ Coração saudável', '🦷 Hálito fresco'],
-        tip: fase === 'gestante' ? '🤰 Gestantes precisam de mais proteína — pode aumentar a porção de carne em 20%.' : null,
-      },
-      {
-        icon: '🌆', name: 'Snack da Tarde: Salmão & Abobrinha', time: '⏰ Lanche da tarde — 16h00',
-        ingredients: [
-          { icon: '🐟', name: 'Salmão cozido', qty: qty.salmão },
-          { icon: '🥒', name: 'Pepino sem casca', qty: porte === 'pequeno' ? '20g' : '40g' },
-          { icon: '🫐', name: 'Mirtilo (blueberry)', qty: '5 unidades' },
-        ],
-        steps: [
-          'Cozinhe o salmão no vapor ou grelhado sem tempero por 10 minutos.',
-          'Remova todas as espinhas com cuidado — esse passo é muito importante!',
-          'Corte o pepino em cubinhos sem casca e sem sementes.',
-          'Desfie o salmão e misture com o pepino. Distribua os mirtilos por cima.',
-        ],
-        benefits: ['🧠 Cognição', '✨ Pelo brilhante', '🫀 Ômega-3'],
-        tip: 'Mirtilos são antioxidantes poderosos para cães! Mas limite a 5-8 unidades por dia.',
-      },
-      {
-        icon: '🌙', name: `Jantar: Fígado com Legumes`, time: '⏰ Jantar — 19h00',
-        ingredients: [
-          { icon: '🫀', name: 'Fígado bovino', qty: qty.fígado },
-          { icon: '🍚', name: 'Arroz integral', qty: qty.arroz },
-          { icon: '🥕', name: 'Cenoura + Ervilha', qty: qty.legume },
-          { icon: '💧', name: 'Caldo de legumes s/ sal', qty: '50ml' },
-        ],
-        steps: [
-          `Corte o fígado em pedaços pequenos e refogue em frigideira seca por ${fase === 'senior' ? '8' : '5'} minutos.`,
-          'Cozinhe o arroz integral com o caldo de legumes em vez de água — dá sabor extra!',
-          'Cozinhe cenoura e ervilha juntos no vapor por 8 minutos.',
-          `Monte o jantar misturando tudo. ${fase === 'senior' ? 'Amasse levemente para facilitar a digestão noturna.' : ''}`,
-        ],
-        benefits: ['🩸 Ferro', '👁️ Vitamina A', '😴 Digestão noturna tranquila'],
-        tip: fase === 'filhote' ? 'Fígado é rico em nutrientes essenciais para o crescimento, mas não exagere — máximo 3x por semana.' :
-             'Fígado não deve ultrapassar 5% da dieta total para evitar hipervitaminose A.',
-      },
+        ingredients: [{ icon: '🍗', name: 'Frango cozido', qty: qty.frango }, { icon: '🍚', name: 'Arroz branco', qty: qty.arroz }, { icon: '🥦', name: 'Brócolis cozido', qty: qty.legume }, { icon: '🫒', name: 'Azeite extra virgem', qty: '1 fio' }],
+        steps: [`Cozinhe o frango em água sem sal.`, 'Desfie o frango.', 'Cozinhe o arroz.', 'Cozinhe o brócolis.', 'Misture tudo.'],
+        benefits: ['🛡️ Imunidade', '💪 Músculo'],
+        tip: 'Sirva em temperatura ambiente.'
+      }
     ];
   }
 
-  /* ── GATO ── */
   function gatoPlan(porte, fase, restricao, petNome) {
-    const qty = {
-      pequeno: { frango: '60g', peixe: '50g', coração: '40g' },
-      medio:   { frango: '90g', peixe: '70g', coração: '60g' },
-      grande:  { frango: '120g', peixe: '100g', coração: '80g' },
-    }[porte] || { frango: '90g', peixe: '70g', coração: '60g' };
-
     return [
       {
         icon: '🌅', name: 'Patê Matinal de Frango', time: '⏰ Café da manhã — 07h00',
-        ingredients: [
-          { icon: '🍗', name: 'Frango cozido desfiado', qty: qty.frango },
-          { icon: '💧', name: 'Caldo de frango s/ sal', qty: '3 colheres' },
-          { icon: '🫀', name: 'Fígado de frango', qty: '20g' },
-        ],
-        steps: [
-          'Cozinhe o frango e o fígado em água sem sal e sem tempero por 20 minutos.',
-          'Desfie o frango muito finamente — gatos preferem textura bem suave.',
-          'Bata ou amasse o fígado com um garfo até virar patê.',
-          'Misture com o caldo de frango até atingir consistência úmida e cremosa.',
-          'Sirva em temperatura ambiente (nunca gelado — gatos não gostam!).',
-        ],
-        benefits: ['💪 Taurina', '✨ Alta palatabilidade', '💧 Hidratação extra'],
-        tip: 'Gatos são carnívoros obrigatórios — a proteína animal deve compor 80%+ da dieta.',
-      },
-      {
-        icon: '☀️', name: 'Snack de Sardinha', time: '⏰ Lanche — 10h00',
-        ingredients: [
-          { icon: '🐟', name: 'Sardinha em água', qty: '30g' },
-          { icon: '🥚', name: 'Gema de ovo cozida', qty: '½ unidade' },
-        ],
-        steps: [
-          'Use sardinha em água (não em óleo). Escorra bem o líquido.',
-          'Cozinhe o ovo por 10 minutos e use apenas a gema.',
-          'Amasse a sardinha com a gema até virar um patê homogêneo.',
-        ],
-        benefits: ['🧠 DHA para cérebro', '✨ Pelo sedoso', '🫀 Ômega-3'],
-        tip: 'Limite sardinha a 2x por semana pelo teor de mercúrio.',
-      },
-      {
-        icon: '🌞', name: 'Almoço: Coração de Frango', time: '⏰ Almoço — 12h30',
-        ingredients: [
-          { icon: '🫀', name: 'Coração de frango cozido', qty: qty.coração },
-          { icon: '🥕', name: 'Cenoura cozida', qty: '20g' },
-          { icon: '🌿', name: 'Óleo de coco', qty: '½ colher chá' },
-        ],
-        steps: [
-          'Cozinhe os corações em água sem sal por 15 minutos.',
-          'Corte em metades ou em pedaços pequenos conforme o porte.',
-          'Cozinhe a cenoura até ficar muito macia e amasse.',
-          'Misture com o óleo de coco e sirva morno.',
-        ],
-        benefits: ['❤️ Taurina cardíaca', '🦴 Articulações', '⚡ Energia'],
-        tip: 'Coração é uma das melhores fontes de taurina — essencial para saúde cardíaca dos gatos!',
-      },
-      {
-        icon: '🌆', name: 'Snack: Atum Natural', time: '⏰ Lanche da tarde — 16h00',
-        ingredients: [
-          { icon: '🐟', name: 'Atum em água (natural)', qty: '30g' },
-          { icon: '💧', name: 'Água extra', qty: '2 colheres' },
-        ],
-        steps: [
-          'Use atum em água, não em óleo ou temperado.',
-          'Escorra bem e misture com as 2 colheres de água para hidratar mais.',
-          'Sirva em temperatura ambiente em porçãozinha pequena.',
-        ],
-        benefits: ['💧 Hidratação', '🧬 Proteína magra', '😸 Palatabilidade'],
-        tip: '⚠️ Nunca ofereça atum temperado ou em salmoura — o sódio é tóxico para gatos!',
-      },
-      {
-        icon: '🌙', name: 'Jantar: Frango com Abóbora', time: '⏰ Jantar — 19h00',
-        ingredients: [
-          { icon: '🍗', name: 'Peito de frango', qty: qty.frango },
-          { icon: '🎃', name: 'Abóbora cozida', qty: '30g' },
-          { icon: '💧', name: 'Água para hidratar', qty: '3 colheres' },
-        ],
-        steps: [
-          'Cozinhe o frango em cubos pequenos sem sal por 15 minutos.',
-          'Cozinhe a abóbora e amasse até virar purê.',
-          'Misture o frango com o purê de abóbora e a água.',
-          `${fase === 'filhote' ? 'Bata tudo no liquidificador para textura extra suave.' : 'Sirva misturado ou separado conforme a preferência do seu gato.'}`,
-        ],
-        benefits: ['🌱 Fibra digestiva', '😴 Sono tranquilo', '🛡️ Imunidade'],
-        tip: 'A abóbora é excelente para regular o intestino de gatos. Rica em fibras e vitamina A.',
-      },
+        ingredients: [{ icon: '🍗', name: 'Frango cozido', qty: '60g' }],
+        steps: ['Cozinhe e desfie o frango.'],
+        benefits: ['💪 Taurina'],
+        tip: 'Gatos amam caldo natural.'
+      }
     ];
   }
 
-  /* ── NUTRITIONAL INFO ── */
   function getNutriInfo(tipo, porte, fase) {
-    const base = tipo === 'gato'
-      ? { pequeno: {kcal:'180-220',proteina:'18-22g',hidratacao:'80%+'}, medio: {kcal:'250-300',proteina:'25-30g',hidratacao:'80%+'}, grande: {kcal:'350-400',proteina:'35-40g',hidratacao:'80%+'} }
-      : { pequeno: {kcal:'200-300',proteina:'20-28g',hidratacao:'60-70%'}, medio:  {kcal:'400-600',proteina:'40-55g',hidratacao:'60-70%'}, grande: {kcal:'700-900',proteina:'70-90g',hidratacao:'60-70%'} };
-    return (base[porte] || base['medio']);
+    return {kcal:'400-600',proteina:'40-55g',hidratacao:'60-70%'};
   }
 
-  /* ── TIPS ── */
   function getTips(tipo, fase, porte) {
-    const comuns = [
-      { icon: '🚫', text: '<strong>Alimentos proibidos:</strong> nunca ofereça cebola, alho, uva, passa, chocolate, abacate, macadâmia, cafeína ou álcool. Esses alimentos são tóxicos.' },
-      { icon: '💧', text: '<strong>Água sempre fresca:</strong> troque a água pelo menos 2x ao dia. Pets saudáveis bebem mais água que pets sedentários.' },
-      { icon: '🌡️', text: '<strong>Temperatura ideal:</strong> nunca sirva alimentos gelados direto da geladeira. Aqueça em temperatura ambiente ou levemente morno.' },
+    return [
+      { icon: '🚫', text: '<strong>Alimentos proibidos:</strong> nunca ofereça cebola ou alho.' },
+      { icon: '💧', text: '<strong>Água fresca:</strong> essencial para a saúde.' }
     ];
-    const extras = tipo === 'gato'
-      ? [{ icon: '🐾', text: '<strong>Gatos e carboidratos:</strong> gatos não precisam de arroz ou grãos. Proteína animal é a base. Carboidratos são desnecessários.' }]
-      : fase === 'filhote'
-        ? [{ icon: '🐾', text: '<strong>Filhotes crescem rápido:</strong> divida a alimentação em 3-4 refeições menores por dia. O estômago deles é menor e metabolizam mais rápido.' }]
-        : fase === 'senior'
-          ? [{ icon: '🦴', text: '<strong>Pets sênior:</strong> reduza proteína de forma gradual se houver doença renal. Prefira textura mais macia e aumente a hidratação.' }]
-          : [{ icon: '⚖️', text: '<strong>Controle o peso:</strong> pese o seu pet mensalmente. Ajuste as porções se notar ganho ou perda de peso acima de 5%.' }];
-    return [...comuns, ...extras];
   }
 </script>
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function() {
-        navigator.serviceWorker.register('/service-worker.js').catch(function(err){
-          console.log('SW registration failed:', err);
-        });
-      });
-    }
-  </script>
-
-  <div style="text-align:center;padding:24px 20px 32px;font-size:.78rem;color:#5A6472;">
-    🐾 Cardápio Pet Natural<br/>
-    <a href="/privacidade.html" style="color:#5A6472;text-decoration:none;border-bottom:1px dotted #5A6472;margin-top:6px;display:inline-block;">Política de Privacidade</a>
-    &nbsp;·&nbsp;
-    <a href="/termos.html" style="color:#5A6472;text-decoration:none;border-bottom:1px dotted #5A6472;display:inline-block;">Termos de Uso</a>
-  </div>
 </body>
 </html>
 

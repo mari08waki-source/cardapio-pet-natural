@@ -5,395 +5,220 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="icon" type="image/png" href="favicon.png"/>
   <link rel="manifest" href="/manifest.json"/>
-  <meta name="theme-color" content="#d4af37"/>
-  <meta name="apple-mobile-web-app-capable" content="yes"/>
-  <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
-  <meta name="apple-mobile-web-app-title" content="Cardápio Pet"/>
-  <link rel="apple-touch-icon" href="/icons/icon-192.png"/>
-  <title>Cardápio Pet Natural — Acesse sua conta</title>
+  <meta name="theme-color" content="#124016"/>
+  <title>Acesso Restrito — Hako Pet</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --sage:       #1A9E50;
-      --sage-dark:  #136B36;
-      --sage-bg:    #E6F7EE;
-      --gold:       #D4920A;
-      --gold-bright:#F5B418;
+      --sage:       #124016;
+      --sage-light: #1A5C20;
+      --gold:       #D4AF37;
+      --gold-dark:  #B8962E;
       --white:      #FFFFFF;
-      --off-white:  #FDFAF4;
-      --border:     #DDE8D8;
-      --text:       #1A1A1A;
-      --muted:      #5A6472;
-      --error:      #DC2626;
-      --error-bg:   #FEF2F2;
-      --success:    #16A34A;
-      --success-bg: #F0FDF4;
+      --bg:         #F8FAFB;
+      --text:       #0F172A;
+      --muted:      #64748B;
+      --error:      #EF4444;
+      --border:     #E2E8F0;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      background: linear-gradient(160deg, #E8F5ED 0%, #F5F0E8 55%, #EBF5F0 100%);
+      font-family: 'Outfit', sans-serif;
+      background: linear-gradient(135deg, #F8FAFB 0%, #E2E8F0 100%);
+      color: var(--text);
       min-height: 100vh;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
       padding: 20px;
     }
 
-    /* ── LOGO / BRAND ─── */
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 28px;
-      text-decoration: none;
-    }
-
-    .brand-icon {
-      width: 44px;
-      height: 44px;
-      background: linear-gradient(135deg, var(--sage-dark), var(--sage));
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      box-shadow: 0 4px 14px rgba(26,158,80,0.35);
-    }
-
-    .brand-icon svg { width: 22px; height: 22px; }
-
-    .brand-name {
-      font-size: 18px;
-      font-weight: 800;
-      color: var(--sage-dark);
-      letter-spacing: -0.3px;
-    }
-
-    /* ── CARD ─── */
-    .card {
+    .login-card {
       background: var(--white);
-      border-radius: 24px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.12);
       width: 100%;
-      max-width: 420px;
+      max-width: 440px;
+      border-radius: 32px;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15);
+      padding: 48px;
+      position: relative;
       overflow: hidden;
     }
 
-    /* ── TABS ─── */
-    .tabs {
-      display: flex;
-      border-bottom: 1.5px solid var(--border);
-    }
-
-    .tab-btn {
-      flex: 1;
-      padding: 16px;
-      background: none;
-      border: none;
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--muted);
-      cursor: pointer;
-      transition: all 0.2s;
-      position: relative;
-    }
-
-    .tab-btn.active {
-      color: var(--sage-dark);
-    }
-
-    .tab-btn.active::after {
+    .login-card::before {
       content: '';
       position: absolute;
-      bottom: -1.5px;
-      left: 0; right: 0;
-      height: 2.5px;
+      top: 0; left: 0; right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, var(--sage), var(--gold));
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 40px;
+    }
+
+    .brand-icon {
+      width: 64px;
+      height: 64px;
       background: var(--sage);
-      border-radius: 99px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+      margin-bottom: 16px;
+      box-shadow: 0 10px 20px rgba(18,64,22,0.2);
     }
 
-    /* ── PANELS ─── */
-    .panel { display: none; padding: 28px 28px 32px; }
-    .panel.active { display: block; }
+    .brand-icon svg { width: 32px; height: 32px; }
 
-    .panel-title {
-      font-size: 20px;
+    .brand-name {
+      font-size: 24px;
       font-weight: 800;
-      color: var(--text);
-      margin-bottom: 6px;
-      letter-spacing: -0.3px;
+      color: var(--sage);
+      letter-spacing: -0.5px;
     }
 
-    .panel-sub {
-      font-size: 13px;
+    .brand-sub {
+      font-size: 14px;
       color: var(--muted);
-      margin-bottom: 24px;
-      line-height: 1.5;
+      margin-top: 4px;
     }
 
-    /* ── INPUTS ─── */
-    .field { margin-bottom: 16px; }
-
+    .field { margin-bottom: 24px; }
     .field label {
       display: block;
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.7px;
-      margin-bottom: 7px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .input-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
     }
 
     .field input {
       width: 100%;
-      padding: 13px 16px;
+      padding: 14px 18px;
       border: 1.5px solid var(--border);
-      border-radius: 14px;
+      border-radius: 16px;
       font-size: 16px;
       color: var(--text);
-      background: var(--off-white);
       outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      -webkit-appearance: none;
+      transition: all 0.2s ease;
+      background: #F1F5F9;
     }
-
-    .field input::placeholder { color: #b0b7c0; }
 
     .field input:focus {
       border-color: var(--sage);
-      background: var(--white);
-      box-shadow: 0 0 0 3px rgba(26,158,80,0.12);
+      background: white;
+      box-shadow: 0 0 0 4px rgba(18,64,22,0.08);
     }
 
-    .field input.error-input {
-      border-color: var(--error);
-      box-shadow: 0 0 0 3px rgba(220,38,38,0.10);
-    }
-
-    /* ── PASSWORD TOGGLE ─── */
-    .field-pass { position: relative; }
-    .field-pass input { padding-right: 46px; }
-    .toggle-pass {
-      position: absolute;
-      right: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: var(--muted);
-      padding: 4px;
-      display: flex;
-      align-items: center;
-    }
-    .toggle-pass svg { width: 18px; height: 18px; }
-
-    /* ── ESQUECI SENHA LINK ─── */
-    .forgot-link {
-      display: block;
-      text-align: right;
-      font-size: 12px;
-      color: var(--sage);
-      font-weight: 600;
-      text-decoration: none;
-      margin-top: -10px;
-      margin-bottom: 20px;
-      cursor: pointer;
-    }
-    .forgot-link:hover { text-decoration: underline; }
-
-    /* ── TERMOS ─── */
-    .terms-wrap {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      margin-bottom: 20px;
-      padding: 14px 16px;
-      background: var(--off-white);
-      border: 1.5px solid var(--border);
-      border-radius: 14px;
-      cursor: pointer;
-    }
-
-    .terms-wrap input[type="checkbox"] {
-      width: 18px;
-      height: 18px;
-      min-width: 18px;
-      accent-color: var(--sage);
-      margin-top: 1px;
-      cursor: pointer;
-    }
-
-    .terms-text {
-      font-size: 12px;
-      color: var(--muted);
-      line-height: 1.5;
-    }
-
-    .terms-text a {
-      color: var(--sage);
-      font-weight: 600;
-      text-decoration: none;
-    }
-    .terms-text a:hover { text-decoration: underline; }
-
-    /* ── BOTÃO PRINCIPAL ─── */
     .btn-primary {
       width: 100%;
-      padding: 15px;
-      background: linear-gradient(135deg, var(--sage) 0%, var(--sage-dark) 100%);
-      border: none;
-      border-radius: 99px;
-      font-size: 15px;
-      font-weight: 800;
+      padding: 16px;
+      background: var(--sage);
       color: white;
+      border: none;
+      border-radius: 18px;
+      font-size: 16px;
+      font-weight: 700;
       cursor: pointer;
-      transition: all 0.2s;
-      letter-spacing: 0.1px;
-      min-height: 52px;
-      box-shadow: 0 6px 20px rgba(26,158,80,0.35);
-      -webkit-tap-highlight-color: transparent;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 15px -3px rgba(18,64,22,0.3);
     }
 
     .btn-primary:hover {
+      background: var(--sage-light);
       transform: translateY(-2px);
-      box-shadow: 0 10px 28px rgba(26,158,80,0.42);
+      box-shadow: 0 20px 25px -5px rgba(18,64,22,0.3);
     }
+
+    .btn-primary:active { transform: translateY(0); }
 
     .btn-primary:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      transform: none;
-      box-shadow: none;
-    }
-
-    .btn-primary.loading {
-      opacity: 0.8;
+      opacity: 0.6;
       cursor: not-allowed;
     }
 
-    /* ── DIVISOR ─── */
-    .divider {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin: 20px 0;
-      color: var(--muted);
-      font-size: 12px;
-    }
-    .divider::before, .divider::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-    }
-
-    /* ── ALERTA ─── */
     .alert {
-      display: none;
       padding: 12px 16px;
       border-radius: 12px;
-      font-size: 13px;
-      margin-bottom: 16px;
-      line-height: 1.5;
+      font-size: 14px;
+      margin-bottom: 24px;
+      display: none;
       font-weight: 500;
     }
 
-    .alert.show { display: flex; align-items: flex-start; gap: 8px; }
-    .alert.error  { background: var(--error-bg);   color: var(--error);   border: 1px solid #FECACA; }
-    .alert.success{ background: var(--success-bg); color: var(--success); border: 1px solid #BBF7D0; }
-    .alert svg { width: 16px; height: 16px; flex-shrink: 0; margin-top: 1px; }
+    .alert.error {
+      background: #FEF2F2;
+      color: var(--error);
+      border: 1px solid #FECACA;
+      display: block;
+    }
 
-    /* ── PAINEL ESQUECI SENHA ─── */
-    .back-btn {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      background: none;
-      border: none;
-      color: var(--muted);
+    .forgot-link {
+      display: block;
+      text-align: right;
       font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      padding: 0;
-      margin-bottom: 20px;
+      color: var(--muted);
+      text-decoration: none;
+      margin-top: -16px;
+      margin-bottom: 32px;
+      font-weight: 500;
+      transition: color 0.2s;
     }
-    .back-btn:hover { color: var(--text); }
-    .back-btn svg { width: 16px; height: 16px; }
 
-    /* ── FORÇA DA SENHA ─── */
-    .strength-bar {
+    .forgot-link:hover { color: var(--sage); }
+
+    .tabs {
       display: flex;
-      gap: 4px;
-      margin-top: 8px;
+      gap: 8px;
+      margin-bottom: 32px;
+      background: #F1F5F9;
+      padding: 6px;
+      border-radius: 14px;
     }
-    .strength-seg {
+
+    .tab {
       flex: 1;
-      height: 3px;
-      border-radius: 99px;
-      background: var(--border);
-      transition: background 0.3s;
-    }
-    .strength-label {
-      font-size: 11px;
-      margin-top: 4px;
-      color: var(--muted);
-    }
-
-    /* ── RODAPÉ ─── */
-    .footer-text {
+      padding: 10px;
       text-align: center;
-      font-size: 12px;
+      font-size: 14px;
+      font-weight: 600;
       color: var(--muted);
-      margin-top: 20px;
+      cursor: pointer;
+      border-radius: 10px;
+      transition: all 0.2s;
     }
 
-
-    /* ── CARD PHOTO BANNER ─── */
-    .card-photo {
-      position: relative; overflow: hidden;
-      height: 168px; border-radius: 24px 24px 0 0;
-    }
-    .card-photo img {
-      width: 100%; height: 100%; object-fit: cover; display: block;
-    }
-    .card-photo-overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, rgba(19,107,54,0.82) 100%);
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: flex-end;
-      padding: 16px; text-align: center; color: white;
-    }
-    .card-photo-title {
-      font-size: 1.05rem; font-weight: 800;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.3); margin-bottom: 4px;
-    }
-    .card-photo-sub {
-      font-size: .78rem; opacity: .92;
-    }
-    .card-trust {
-      display: flex; gap: 6px; justify-content: center;
-      flex-wrap: wrap; margin-top: 10px;
-    }
-    .card-trust-item {
-      background: rgba(255,255,255,0.22);
-      border: 1px solid rgba(255,255,255,0.35);
-      border-radius: 20px; padding: 3px 10px;
-      font-size: .72rem; font-weight: 700; color: white;
+    .tab.active {
+      background: white;
+      color: var(--sage);
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
     }
 
-    /* ── MOBILE ─── */
-    @media (max-width: 480px) {
-      body { padding: 16px; background: var(--white); justify-content: flex-start; padding-top: 40px; }
-      .card { border-radius: 20px; box-shadow: 0 8px 32px rgba(0,0,0,0.10); }
-      .panel { padding: 22px 20px 28px; }
-      .card-photo { height: 140px; border-radius: 20px 20px 0 0; }
+    .panel { display: none; }
+    .panel.active { display: block; }
+
+    /* Micro-animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
+    .login-card { animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+
   </style>
+<<<<<<< HEAD
 <!-- Meta Pixel Code -->
 <script>
 !function(f,b,e,v,n,t,s)
@@ -411,108 +236,95 @@ fbq('track', 'PageView');
 src="https://www.facebook.com/tr?id=1662091188448845&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
+=======
+>>>>>>> 110742e (Jarvis: Unificação e Sistema Admin 2.0)
 </head>
 <body>
 
-<!-- AVISO LEGAL FIXO NO RODAPÉ -->
-<div id="avisoLegal" style="
-  position:fixed; bottom:0; left:0; right:0; z-index:998;
-  background:rgba(255,255,255,0.97);
-  border-top:1px solid #DDE8D8;
-  padding:10px 16px;
-  display:flex; align-items:center; justify-content:space-between; gap:12px;
-  font-size:11px; color:#5A6472; line-height:1.4;
-  box-shadow: 0 -2px 12px rgba(0,0,0,0.07);
-">
-  <span>
-    ⚕️ <strong>Aviso:</strong> As sugestões deste app são <strong>informativas</strong> e não substituem orientação veterinária. Consulte um médico veterinário antes de alterar a dieta do seu pet.
-  </span>
-  <button onclick="document.getElementById('avisoLegal').style.display='none'; localStorage.setItem('avisoOk','1')"
-    style="background:#1A9E50;border:none;color:white;font-size:11px;font-weight:700;padding:6px 12px;border-radius:99px;cursor:pointer;white-space:nowrap;flex-shrink:0;">
-    Entendi ✓
-  </button>
-</div>
-<script>
-  if(localStorage.getItem('avisoOk')==='1'){
-    document.addEventListener('DOMContentLoaded',function(){
-      var el=document.getElementById('avisoLegal');
-      if(el) el.style.display='none';
-    });
-  }
-</script>
-
-<!-- BRAND -->
-<a class="brand" href="calculadora-pet-FINAL.html">
-  <div class="brand-icon">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
-  </div>
-  <span class="brand-name">Cardápio Pet Natural</span>
-</a>
-
-<div class="card">
-
-  <!-- BANNER COM FOTO -->
-  <div class="card-photo">
-    <img src="https://images.unsplash.com/photo-1450778869180-41d0601e046e?w=600&h=340&fit=crop&auto=format" alt="Pets saudáveis e felizes" />
-    <div class="card-photo-overlay">
-      <div class="card-photo-title">🐾 Cardápio Pet Natural</div>
-      <div class="card-photo-sub">Receitas personalizadas para o seu pet</div>
-      <div class="card-trust">
-        <span class="card-trust-item">🌿 100% Natural</span>
-        <span class="card-trust-item">✅ Fácil de preparar</span>
-        <span class="card-trust-item">❤️ Pets mais saudáveis</span>
+  <div class="login-card">
+    <div class="brand">
+      <div class="brand-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
       </div>
+      <div class="brand-name">Hako Pet</div>
+      <div class="brand-sub">Painel Administrativo</div>
     </div>
-  </div>
 
-  <!-- TABS -->
-  <div class="tabs" id="mainTabs">
-    <button class="tab-btn active" onclick="showTab('login')">Entrar</button>
-    <button class="tab-btn"        onclick="showTab('cadastro')">Criar conta</button>
-  </div>
+    <div class="tabs" id="authTabs">
+      <div class="tab active" onclick="switchTab('login')">Entrar</div>
+      <div class="tab" onclick="switchTab('cadastro')">Criar Conta</div>
+    </div>
 
-  <!-- ── PAINEL LOGIN ── -->
-  <div class="panel active" id="panelLogin">
-    <div class="panel-title">Bem-vinda de volta! 👋</div>
-    <div class="panel-sub">Acesse seu cardápio personalizado</div>
+    <div class="alert" id="authAlert"></div>
 
-    <div class="alert" id="alertLogin"></div>
-
-    <form onsubmit="event.preventDefault(); handleLogin();">
-      <div class="field">
-        <label>E-mail</label>
-        <input type="email" id="loginEmail" placeholder="seu@email.com" autocomplete="email"/>
-      </div>
-
-      <div class="field">
-        <label>Senha</label>
-        <div class="field-pass">
-          <input type="password" id="loginSenha" placeholder="••••••••" autocomplete="current-password"/>
-          <button type="button" class="toggle-pass" onclick="togglePass('loginSenha', this)">
-            <svg id="eyeLogin" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+    <!-- PAINEL LOGIN -->
+    <div class="panel active" id="panelLogin">
+      <form onsubmit="handleAuth(event, 'login')">
+        <div class="field">
+          <label>E-mail Corporativo</label>
+          <input type="email" id="loginEmail" placeholder="exemplo@hakopet.com.br" required />
+        </div>
+        <div class="field">
+          <label>Senha</label>
+          <input type="password" id="loginPass" placeholder="••••••••" required />
+        </div>
+        <a href="#" class="forgot-link" onclick="switchTab('forgot')">Esqueceu a senha?</a>
+        <button type="submit" class="btn-primary" id="btnLogin">Acessar Painel</button>
+        
+        <!-- BOTÃO DE EMERGÊNCIA MARI -->
+        <div id="magicLinkArea" style="display:none; margin-top: 16px; text-align: center;">
+          <div style="height: 1px; background: var(--border); margin-bottom: 16px;"></div>
+          <p style="font-size: 12px; color: var(--muted); margin-bottom: 12px;">Problemas com a senha?</p>
+          <button type="button" onclick="handleMagicLink()" class="btn-primary" style="background: var(--gold); color: var(--sage); box-shadow: none;">
+            Receber Link de Acesso por E-mail
           </button>
         </div>
-      </div>
-
-      <a class="forgot-link" onclick="showForgot()">Esqueci minha senha</a>
-
-      <button type="submit" class="btn-primary" id="btnLogin">
-        Entrar na minha conta
-      </button>
-    </form>
-
-    <div class="footer-text">
-      Não tem conta? <span style="color:var(--sage);font-weight:700;cursor:pointer" onclick="showTab('cadastro')">Crie uma grátis</span>
+      </form>
     </div>
+
+    <!-- PAINEL CADASTRO -->
+    <div class="panel" id="panelCadastro">
+      <form onsubmit="handleAuth(event, 'signup')">
+        <div class="field">
+          <label>Nome Completo</label>
+          <input type="text" id="cadName" placeholder="Seu nome" required />
+        </div>
+        <div class="field">
+          <label>E-mail</label>
+          <input type="email" id="cadEmail" placeholder="seu@email.com" required />
+        </div>
+        <div class="field">
+          <label>Nova Senha</label>
+          <input type="password" id="cadPass" placeholder="Mínimo 8 caracteres" required minlength="8" />
+        </div>
+        <button type="submit" class="btn-primary" id="btnSignup">Cadastrar e Entrar</button>
+      </form>
+    </div>
+
+    <!-- PAINEL ESQUECI SENHA -->
+    <div class="panel" id="panelForgot">
+      <form onsubmit="handleAuth(event, 'forgot')">
+        <div class="field">
+          <label>Seu e-mail cadastrado</label>
+          <input type="email" id="forgotEmail" placeholder="seu@email.com" required />
+        </div>
+        <button type="submit" class="btn-primary" id="btnForgot">Enviar Link de Recuperação</button>
+        <p style="text-align: center; font-size: 14px; margin-top: 20px; color: var(--muted); cursor: pointer;" onclick="switchTab('login')">Voltar para o Login</p>
+      </form>
+    </div>
+
   </div>
 
-  <!-- ── PAINEL CADASTRO ── -->
-  <div class="panel" id="panelCadastro">
-    <div class="panel-title">Crie sua conta 🐾</div>
-    <div class="panel-sub">Acesse seu cardápio completo após a compra</div>
+  <script>
+    const { createClient } = supabase;
+    const sb = createClient(
+      'https://fzmqdevzdwluhasvxswi.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ6bXFkZXZ6ZHdsdWhhc3Z4c3dpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxMDE2OTksImV4cCI6MjA5MTY3NzY5OX0.l9b9BNlsHzo4c5zzJJ-6a3byK3N5D4OsuWm42mA5udI'
+    );
 
-    <div class="alert" id="alertCadastro"></div>
+    const ADMIN_EMAIL = 'mari08waki@gmail.com';
 
+<<<<<<< HEAD
     <div class="field">
       <label>Seu nome</label>
       <input type="text" id="cadNome" placeholder="Ex: Maria" autocomplete="name"/>
@@ -797,111 +609,136 @@ src="https://www.facebook.com/tr?id=1662091188448845&ev=PageView&noscript=1"
       options: {
         data: { full_name: nome },
         emailRedirectTo: window.location.origin + '/login.html'
+=======
+    // Detector de Admin para mostrar botão de emergência
+    document.getElementById('loginEmail').addEventListener('input', (e) => {
+      const area = document.getElementById('magicLinkArea');
+      if (e.target.value.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
+        area.style.display = 'block';
+      } else {
+        area.style.display = 'none';
+>>>>>>> 110742e (Jarvis: Unificação e Sistema Admin 2.0)
       }
     });
 
-    btn.disabled = false;
-    btn.textContent = 'Criar minha conta';
-    btn.classList.remove('loading');
+    async function handleMagicLink() {
+      const email = document.getElementById('loginEmail').value;
+      const alert = document.getElementById('authAlert');
+      alert.style.display = 'none';
 
-    if (error) {
-      const msgs = {
-        'User already registered': 'Este e-mail já está cadastrado. Faça login.',
-        'Password should be at least 6 characters': 'Senha muito curta.',
-      };
-      showAlert('alertCadastro', 'error', msgs[error.message] || 'Erro ao cadastrar. Tente novamente.');
-      return;
-    }
-
-    // Se tem sessão ativa, redireciona direto para o quiz
-    if (data.session) {
-      window.location.href = 'calculadora-pet-FINAL.html';
-      return;
-    }
-
-    // Se não tem sessão (confirmação de email ativa), mostra mensagem
-    showAlert('alertCadastro', 'success',
-      `✅ Conta criada! Acesse seu e-mail <strong>${email}</strong> e clique no link de confirmação para ativar sua conta.`
-    );
-  }
-
-  // ── ESQUECI SENHA ─────────────────────────────────────
-  async function handleForgot() {
-    hideAlert('alertForgot');
-    const email = document.getElementById('forgotEmail').value.trim();
-
-    if (!email) {
-      showAlert('alertForgot', 'error', 'Digite seu e-mail cadastrado.');
-      return;
-    }
-
-    const btn = document.getElementById('btnForgot');
-    btn.disabled = true;
-    btn.textContent = 'Enviando...';
-    btn.classList.add('loading');
-
-    const { error } = await sb.auth.resetPasswordForEmail(email, {
-      redirectTo: window.location.origin + '/reset-senha.html'
-    });
-
-    btn.disabled = false;
-    btn.textContent = 'Enviar link de recuperação';
-    btn.classList.remove('loading');
-
-    if (error) {
-      showAlert('alertForgot', 'error', 'Erro ao enviar. Verifique o e-mail e tente novamente.');
-      return;
-    }
-
-    showAlert('alertForgot', 'success',
-      `📧 Link enviado para <strong>${email}</strong>! Verifique sua caixa de entrada (e o spam).`
-    );
-  }
-
-  // ── MODAIS ────────────────────────────────────────────
-  function showTermos(e) {
-    e.preventDefault();
-    document.getElementById('modalTermos').style.display = 'block';
-  }
-
-  function showPrivacidade(e) {
-    e.preventDefault();
-    document.getElementById('modalPriv').style.display = 'block';
-  }
-
-  // Fechar modal clicando fora
-  ['modalTermos','modalPriv'].forEach(id => {
-    document.getElementById(id).addEventListener('click', function(e) {
-      if (e.target === this) this.style.display = 'none';
-    });
-  });
-
-  // Enter para submeter
-  document.getElementById('loginSenha').addEventListener('keydown', e => {
-    if (e.key === 'Enter') handleLogin();
-  });
-  document.getElementById('cadConfirma').addEventListener('keydown', e => {
-    if (e.key === 'Enter') handleCadastro();
-  });
-  document.getElementById('forgotEmail').addEventListener('keydown', e => {
-    if (e.key === 'Enter') handleForgot();
-  });
-</script>
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function() {
-        navigator.serviceWorker.register('/service-worker.js').catch(function(err){
-          console.log('SW registration failed:', err);
+      try {
+        const { error } = await sb.auth.signInWithOtp({
+          email: email,
+          options: {
+            emailRedirectTo: window.location.origin + '/admin'
+          }
         });
-      });
+        if (error) throw error;
+        alert.style.display = 'block';
+        alert.className = 'alert error';
+        alert.style.color = '#16A34A';
+        alert.style.backgroundColor = '#F0FDF4';
+        alert.textContent = 'Link enviado! Verifique seu e-mail para entrar direto no Admin.';
+      } catch (err) {
+        alert.style.display = 'block';
+        alert.className = 'alert error';
+        alert.textContent = err.message;
+      }
     }
-  </script>
 
-  <div style="text-align:center;margin-top:24px;padding:16px 20px;font-size:.78rem;color:#5A6472;">
-    <a href="/privacidade.html" style="color:#5A6472;text-decoration:none;border-bottom:1px dotted #5A6472;">Política de Privacidade</a>
-    &nbsp;·&nbsp;
-    <a href="/termos.html" style="color:#5A6472;text-decoration:none;border-bottom:1px dotted #5A6472;">Termos de Uso</a>
-  </div>
+    function switchTab(tabName) {
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.getElementById('authAlert').style.display = 'none';
+
+      if (tabName === 'login') {
+        document.getElementById('panelLogin').classList.add('active');
+        document.querySelector('.tab:nth-child(1)').classList.add('active');
+        document.getElementById('authTabs').style.display = 'flex';
+      } else if (tabName === 'cadastro') {
+        document.getElementById('panelCadastro').classList.add('active');
+        document.querySelector('.tab:nth-child(2)').classList.add('active');
+        document.getElementById('authTabs').style.display = 'flex';
+      } else {
+        document.getElementById('panelForgot').classList.add('active');
+        document.getElementById('authTabs').style.display = 'none';
+      }
+    }
+
+    async function handleAuth(e, type) {
+      e.preventDefault();
+      const alert = document.getElementById('authAlert');
+      alert.style.display = 'none';
+      
+      const btnId = type === 'login' ? 'btnLogin' : (type === 'signup' ? 'btnSignup' : 'btnForgot');
+      const btn = document.getElementById(btnId);
+      const originalText = btn.textContent;
+      
+      btn.disabled = true;
+      btn.textContent = 'Processando...';
+
+      try {
+        if (type === 'login') {
+          const email = document.getElementById('loginEmail').value;
+          const pass = document.getElementById('loginPass').value;
+          const { data, error } = await sb.auth.signInWithPassword({ email, password: pass });
+          if (error) throw error;
+          redirectUser(data.user.email);
+        } 
+        else if (type === 'signup') {
+          const email = document.getElementById('cadEmail').value;
+          const pass = document.getElementById('cadPass').value;
+          const name = document.getElementById('cadName').value;
+          const { data, error } = await sb.auth.signUp({ 
+            email, 
+            password: pass,
+            options: { data: { full_name: name } }
+          });
+          if (error) throw error;
+          alert.style.display = 'block';
+          alert.className = 'alert error'; // Usando error style para sucesso informativo
+          alert.style.color = '#16A34A';
+          alert.style.backgroundColor = '#F0FDF4';
+          alert.style.borderColor = '#BBF7D0';
+          alert.textContent = 'Conta criada! Verifique seu e-mail para confirmar.';
+        }
+        else if (type === 'forgot') {
+          const email = document.getElementById('forgotEmail').value;
+          const { error } = await sb.auth.resetPasswordForEmail(email, {
+            redirectTo: window.location.origin + '/reset'
+          });
+          if (error) throw error;
+          alert.style.display = 'block';
+          alert.className = 'alert error';
+          alert.style.color = '#16A34A';
+          alert.style.backgroundColor = '#F0FDF4';
+          alert.textContent = 'Link de recuperação enviado para seu e-mail.';
+        }
+      } catch (err) {
+        alert.style.display = 'block';
+        alert.className = 'alert error';
+        alert.textContent = err.message;
+      } finally {
+        btn.disabled = false;
+        btn.textContent = originalText;
+      }
+    }
+
+    function redirectUser(email) {
+      if (email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
+        window.location.href = '/admin';
+      } else {
+        window.location.href = '/cardapio';
+      }
+    }
+
+    // Auto-login check
+    (async () => {
+      const { data: { session } } = await sb.auth.getSession();
+      if (session) redirectUser(session.user.email);
+    })();
+
+  </script>
 </body>
 </html>
 

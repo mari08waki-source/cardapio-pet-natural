@@ -1039,6 +1039,10 @@ src="https://www.facebook.com/tr?id=1662091188448845&ev=PageView&noscript=1"
       <div class="progress-fill" id="progressFill" style="width: 16%"></div>
     </div>
     <div class="step-indicator" id="stepIndicator">Passo 1 de 6</div>
+    <!-- INSIGHT DE CURIOSIDADE (DOPAMINA) -->
+    <div id="quizInsight" style="margin-top:12px; padding:10px 14px; background:#f0f9ff; border-radius:12px; color:#0369a1; font-size:12.5px; font-weight:600; text-align:center; transition: all 0.4s; opacity:0; border: 1px solid #bae6fd; box-shadow: 0 2px 8px rgba(0,0,0,0.05); min-height: 40px; display: flex; align-items: center; justify-content: center;">
+      Aguardando análise...
+    </div>
   </div>
 
   <!-- PERGUNTAS -->
@@ -1046,37 +1050,31 @@ src="https://www.facebook.com/tr?id=1662091188448845&ev=PageView&noscript=1"
 
     <!-- STEP 1 -->
     <div class="question active" id="step1">
-      <h2>Qual é o seu pet?</h2>
-      <p class="subtitle">Vamos personalizar o cardápio ideal</p>
+      <h2>Vamos começar a jornada do seu cão?</h2>
+      <p class="subtitle">Cada detalhe importa para garantir anos de vitalidade</p>
       <div class="options">
-        <button class="option-btn" onclick="select(this, 1, 'cachorro')">
-          <span class="icon-photo"><img src="pet-cachorro.jpg" alt="Cachorro"/></span> Cachorro
-        </button>
-        <button class="option-btn" onclick="select(this, 1, 'gato')">
-          <span class="icon-photo"><img src="pet-gato.jpg" alt="Gato"/></span> Gato
-        </button>
-        <button class="option-btn" onclick="select(this, 1, 'outro')">
-          <span class="icon-photo"><img src="pet-outro.jpg" alt="Outro animal"/></span> Outro (coelho, ave...)
+        <button class="option-btn selected" onclick="select(this, 1, 'cachorro')">
+          <span class="icon-photo"><img src="pet-cachorro.jpg" alt="Cachorro"/></span> Iniciar Diagnóstico do meu Cão
         </button>
       </div>
       <div class="nav-btns">
-        <button class="btn-next" id="next1" onclick="nextStep(2)" disabled>Próximo →</button>
+        <button class="btn-next" id="next1" onclick="nextStep(2)">Próximo →</button>
       </div>
     </div>
 
     <!-- STEP 2 -->
     <div class="question" id="step2">
-      <h2>Qual é a fase de vida?</h2>
-      <p class="subtitle">A alimentação muda bastante dependendo da fase</p>
+      <h2>Em que fase da jornada o seu pet está?</h2>
+      <p class="subtitle">A nutrição evolui junto com a sabedoria dele</p>
       <div class="options">
         <button class="option-btn text-only" onclick="select(this, 2, 'filhote')">
-          Filhote (até 1 ano)
+          Energia de Filhote (Crescimento)
         </button>
         <button class="option-btn text-only" onclick="select(this, 2, 'adulto')">
-          Adulto (1 a 7 anos)
+          Plenitude Adulta (Vitalidade)
         </button>
         <button class="option-btn text-only" onclick="select(this, 2, 'senior')">
-          Sênior (acima de 7 anos)
+          Sabedoria Sênior (Longevidade)
         </button>
       </div>
       <div class="nav-btns">
@@ -1087,17 +1085,22 @@ src="https://www.facebook.com/tr?id=1662091188448845&ev=PageView&noscript=1"
 
     <!-- STEP 3 -->
     <div class="question" id="step3">
+<<<<<<< HEAD
       <h2>Qual o peso do seu pet?</h2>
       <p class="subtitle">Usamos isso para calcular as porções exatas</p>
+=======
+      <h2>Qual o porte desse grande amigo?</h2>
+      <p class="subtitle">Isso nos ajuda a definir a proporção ideal de energia</p>
+>>>>>>> 110742e (Jarvis: Unificação e Sistema Admin 2.0)
       <div class="options">
         <button class="option-btn text-only" onclick="select(this, 3, 'mini')">
-          Até 5kg (porte mini/pequeno)
+          Porte Pequeno / Delicado
         </button>
         <button class="option-btn text-only" onclick="select(this, 3, 'medio')">
-          5kg a 20kg (porte médio)
+          Porte Médio / Ativo
         </button>
         <button class="option-btn text-only" onclick="select(this, 3, 'grande')">
-          Acima de 20kg (porte grande)
+          Porte Grande / Majestoso
         </button>
       </div>
       <div class="nav-btns">
@@ -1108,17 +1111,17 @@ src="https://www.facebook.com/tr?id=1662091188448845&ev=PageView&noscript=1"
 
     <!-- STEP 4 -->
     <div class="question" id="step4">
-      <h2>Tem alguma restrição alimentar?</h2>
-      <p class="subtitle">Assim evitamos ingredientes problemáticos</p>
+      <h2>O seu pet precisa de algum cuidado especial agora?</h2>
+      <p class="subtitle">Queremos garantir que cada ingrediente seja um aliado da saúde</p>
       <div class="options">
         <button class="option-btn text-only" onclick="select(this, 4, 'nenhuma')">
-          Nenhuma restrição conhecida
+          Saúde Plena (Manutenção e Prevenção)
         </button>
         <button class="option-btn text-only" onclick="select(this, 4, 'alergia')">
-          Tem alergia ou sensibilidade
+          Sensibilidade ou Alergias
         </button>
         <button class="option-btn text-only" onclick="select(this, 4, 'doenca')">
-          Tem doença (renal, cardíaca, etc.)
+          Cuidados Específicos (Renal, Cardíaco, etc.)
         </button>
       </div>
       <div class="nav-btns">
@@ -1129,6 +1132,7 @@ src="https://www.facebook.com/tr?id=1662091188448845&ev=PageView&noscript=1"
 
     <!-- STEP 5 -->
     <div class="question" id="step5">
+<<<<<<< HEAD
       <h2>Como é a alimentação dele hoje?</h2>
       <p class="subtitle">Seja sincero, queremos entender a realidade</p>
       <div class="options">
@@ -1140,6 +1144,19 @@ src="https://www.facebook.com/tr?id=1662091188448845&ev=PageView&noscript=1"
         </button>
         <button class="option-btn text-only" onclick="select(this, 5, 'natural')">
           Apenas opções frescas/preparo caseiro
+=======
+      <h2>Como é o momento da refeição hoje?</h2>
+      <p class="subtitle">Entender o presente para transformar o futuro</p>
+      <div class="options">
+        <button class="option-btn text-only" onclick="select(this, 5, 'racao')">
+          Alimentação Industrial (Seca)
+        </button>
+        <button class="option-btn text-only" onclick="select(this, 5, 'misto')">
+          Mix de Industrial e Natural
+        </button>
+        <button class="option-btn text-only" onclick="select(this, 5, 'natural')">
+          Já iniciamos na Nutrição Natural
+>>>>>>> 110742e (Jarvis: Unificação e Sistema Admin 2.0)
         </button>
       </div>
       <div class="nav-btns">
@@ -1150,23 +1167,28 @@ src="https://www.facebook.com/tr?id=1662091188448845&ev=PageView&noscript=1"
 
     <!-- STEP 6 -->
     <div class="question" id="step6">
+<<<<<<< HEAD
       <h2 style="color: var(--sage); font-size: 20px;">Seu resultado está pronto!</h2>
       <p class="subtitle">Digite seus dados para ver o cardápio do seu pet.</p>
+=======
+      <h2>Quase lá! Estamos preparando algo especial.</h2>
+      <p class="subtitle">Para onde devemos enviar o Relatório de Vitalidade e o Plano Nutricional?</p>
+>>>>>>> 110742e (Jarvis: Unificação e Sistema Admin 2.0)
       <div class="input-group">
-        <label>Seu melhor e-mail</label>
+        <label>Seu e-mail de tutor consciente</label>
         <input type="email" id="tutorEmail" placeholder="exemplo@email.com" oninput="checkInputs()" />
       </div>
       <div class="input-group">
         <label>Seu nome</label>
-        <input type="text" id="tutorName" placeholder="Ex: Maria" oninput="checkInputs()" />
+        <input type="text" id="tutorName" placeholder="Como podemos te chamar?" oninput="checkInputs()" />
       </div>
       <div class="input-group">
-        <label>Nome do seu pet</label>
-        <input type="text" id="petName" placeholder="Ex: Bolinha" oninput="checkInputs()" />
+        <label>O nome do seu pet</label>
+        <input type="text" id="petName" placeholder="Ex: Thor" oninput="checkInputs()" />
       </div>
       <div class="nav-btns">
         <button class="btn-back" onclick="prevStep(5)">← Voltar</button>
-        <button class="btn-next" id="next6" onclick="showLoading()" disabled>Ver meu cardápio →</button>
+        <button class="btn-next" id="next6" onclick="showLoading()" disabled>Desbloquear Protocolo de Longevidade →</button>
       </div>
     </div>
 
@@ -1348,10 +1370,11 @@ src="https://www.facebook.com/tr?id=1662091188448845&ev=PageView&noscript=1"
   const { createClient } = supabase;
   const sb = createClient(
     'https://fzmqdevzdwluhasvxswi.supabase.co',
-    'sb_publishable_FJ921pqk3-vg8gD68euDTg_H1TtAZdz'
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ6bXFkZXZ6ZHdsdWhhc3Z4c3dpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxMDE2OTksImV4cCI6MjA5MTY3NzY5OX0.l9b9BNlsHzo4c5zzJJ-6a3byK3N5D4OsuWm42mA5udI'
   );
 
-  let currentUser = null;
+  // ── ESTADO GLOBAL DO QUIZ ──
+  const answers = { 1: 'cachorro', 2: null, 3: null, 4: null, 5: null };
 
   // Verifica sessão ao carregar
   (async () => {
@@ -1370,27 +1393,37 @@ src="https://www.facebook.com/tr?id=1662091188448845&ev=PageView&noscript=1"
     document.getElementById('navUser').style.display = 'flex';
   })();
 
-  // Salva cardápio no Supabase
+  // Salva cardápio no Supabase (com proteção contra erros)
   async function saveCardapio(petName, tipo, fase, porte, restricao, alimentacao) {
-    if (!currentUser) return; // só salva se estiver logado
-    await sb.from('cardapios').insert({
-      user_id:           currentUser.id,
-      pet_nome:          petName,
-      pet_tipo:          tipo,
-      pet_fase:          fase,
-      pet_porte:         porte,
-      pet_restricao:     restricao,
-      alimentacao_atual: alimentacao
-    });
+    try {
+      const { error } = await sb.from('cardapios').insert({
+        pet_nome:          petName,
+        pet_tipo:          tipo,
+        pet_fase:          fase,
+        pet_porte:         porte,
+        pet_restricao:     restricao,
+        alimentacao_atual: alimentacao
+      });
+      if (error) throw error;
+    } catch (e) {
+      console.warn("⚠️ Supabase indisponível (provavelmente pausado). Dados salvos apenas localmente.");
+    }
   }
 
-  const answers = { 1: null, 2: null, 3: null, 4: null, 5: null };
+  const insights = {
+    1: "Incrível! Cães têm um sistema digestivo único que floresce com nutrição viva.",
+    2: "A fase de vida determina quais enzimas o pâncreas deve priorizar hoje.",
+    3: "O porte define a estrutura óssea. Já estamos calculando o cálcio ideal.",
+    4: "Restrições são oportunidades para desintoxicar o organismo do seu pet.",
+    5: "O histórico alimentar nos ajuda a mapear a transição segura para a vida natural."
+  };
 
   function select(btn, step, value) {
     const btns = document.querySelectorAll(`#step${step} .option-btn`);
     btns.forEach(b => b.classList.remove('selected'));
     btn.classList.add('selected');
     answers[step] = value;
+<<<<<<< HEAD
     
     if (step < 6) {
       setTimeout(() => {
@@ -1398,16 +1431,41 @@ src="https://www.facebook.com/tr?id=1662091188448845&ev=PageView&noscript=1"
       }, 350);
     } else {
       document.getElementById(`next${step}`).disabled = false;
+=======
+    document.getElementById(`next${step}`).disabled = false;
+
+    // Efeito de Curiosidade (Dopamina)
+    const insightEl = document.getElementById('quizInsight');
+    if (insightEl && insights[step]) {
+      insightEl.textContent = insights[step];
+      insightEl.style.opacity = '1';
+      setTimeout(() => { insightEl.style.opacity = '0.7'; }, 2000);
+>>>>>>> 110742e (Jarvis: Unificação e Sistema Admin 2.0)
     }
   }
 
   function checkInputs() {
-    const name = document.getElementById('tutorName').value.trim();
-    const pet = document.getElementById('petName').value.trim();
-    const emailEl = document.getElementById('tutorEmail');
-    const email = emailEl ? emailEl.value.trim() : '';
+    const emailInput = document.getElementById('tutorEmail');
+    const nameInput = document.getElementById('tutorName');
+    const petInput = document.getElementById('petName');
+    const btn = document.getElementById('next6');
+    
+    if (!emailInput || !nameInput || !petInput || !btn) return;
+
+    const email = emailInput.value.trim();
+    const name = nameInput.value.trim();
+    const pet = petInput.value.trim();
+    
+    // Atualiza texto do botão dinamicamente
+    if (pet.length > 1) {
+      btn.textContent = `Desbloquear Protocolo do ${pet} →`;
+    } else {
+      btn.textContent = `Desbloquear Protocolo de Longevidade →`;
+    }
+    
+    // Validação robusta de e-mail
     const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    document.getElementById('next6').disabled = !(name && pet && emailValid);
+    btn.disabled = !(name.length > 2 && pet.length > 1 && emailValid);
   }
 
   function nextStep(step) {
@@ -1426,25 +1484,41 @@ src="https://www.facebook.com/tr?id=1662091188448845&ev=PageView&noscript=1"
 
   function updateProgress(step) {
     const pct = (step / 6) * 100;
-    document.getElementById('progressFill').style.width = pct + '%';
-    document.getElementById('stepIndicator').textContent = `Passo ${step} de 6`;
+    const fill = document.getElementById('progressFill');
+    const indicator = document.getElementById('stepIndicator');
+    if (fill) fill.style.width = pct + '%';
+    if (indicator) indicator.textContent = `Passo ${step} de 6`;
   }
 
   function showLoading() {
     document.getElementById('quizBody').style.display = 'none';
-    document.getElementById('loadingScreen').classList.add('active');
-    setTimeout(showResult, 2800);
+    const loading = document.getElementById('loadingScreen');
+    if (loading) loading.classList.add('active');
+    
+    // Quase instantâneo (500ms)
+    setTimeout(showResult, 500);
   }
 
+<<<<<<< HEAD
   async function showResult() {
     document.getElementById('loadingScreen').classList.remove('active');
+=======
+  function showResult() {
+    const loading = document.getElementById('loadingScreen');
+    if (loading) loading.classList.remove('active');
+>>>>>>> 110742e (Jarvis: Unificação e Sistema Admin 2.0)
 
-    const petName = document.getElementById('petName').value;
-    const tutorName = document.getElementById('tutorName').value;
+    const petNameInput = document.getElementById('petName');
+    const tutorNameInput = document.getElementById('tutorName');
+    if (!petNameInput || !tutorNameInput) return;
+
+    const petName = petNameInput.value;
+    const tutorName = tutorNameInput.value;
     const tipo = answers[1];
     const fase = answers[2];
     const porte = answers[3];
     const restricao = answers[4];
+<<<<<<< HEAD
     const alimentacao = answers[5] || '';
 
     // Se o usuário estiver logado (já comprou/criou conta), salva e vai direto pro dashboard
@@ -1474,149 +1548,152 @@ src="https://www.facebook.com/tr?id=1662091188448845&ev=PageView&noscript=1"
         window.scrollTo({ top: 0, behavior: 'smooth' });
       });
     });
+=======
+    const pesoValue = porte === 'mini' ? 4 : (porte === 'medio' ? 12 : 25);
+
+    // ── CÁLCULO DE VITALIDADE ──
+    const rer = Math.round(70 * Math.pow(pesoValue, 0.75));
+    const fator = fase === 'filhote' ? 2.5 : (fase === 'senior' ? 1.2 : 1.6);
+    const calorias = Math.round(rer * fator);
+    const hidratacao = pesoValue * 60;
+
+    // Atualiza a UI
+    document.getElementById('resultTitle').textContent = `Laudo de Vitalidade: ${petName} 🐾`;
+    document.getElementById('resultSubtitle').textContent = `Análise personalizada para o seu companheiro, ${tutorName}`;
+    document.getElementById('upsellTitle').textContent = `O Plano Nutricional Completo do ${petName}`;
+    document.getElementById('upsellDesc').textContent = `Transforme a saúde do ${petName} com o guia que a natureza planejou. Receitas, porções exatas e acompanhamento em PDF.`;
+
+    // Salva em background
+    try {
+      const alimentacao = answers[5] || '';
+      saveCardapio(petName, tipo, fase, porte, restricao, alimentacao);
+    } catch(e) { console.warn(e); }
+
+    const meals = getMealPlan(tipo, fase, porte, restricao);
+    const mealPlanDiv = document.getElementById('mealPlan');
+    mealPlanDiv.innerHTML = `
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px;">
+        <div style="background:var(--sage-bg); padding:16px; border-radius:16px; text-align:center; border:1px solid var(--sage);">
+          <div style="font-size:11px; font-weight:700; color:var(--sage); text-transform:uppercase; margin-bottom:4px;">Calorias/Dia</div>
+          <div style="font-size:20px; font-weight:800; color:var(--sage-dark);">${calorias} kcal</div>
+        </div>
+        <div style="background:var(--gold-light); padding:16px; border-radius:16px; text-align:center; border:1px solid var(--gold);">
+          <div style="font-size:11px; font-weight:700; color:var(--gold); text-transform:uppercase; margin-bottom:4px;">Hidratação Ideal</div>
+          <div style="font-size:20px; font-weight:800; color:var(--gold);">${hidratacao} ml</div>
+        </div>
+      </div>
+    `;
+
+    const freeMeal = meals[0];
+    mealPlanDiv.innerHTML += `
+      <div class="result-card" style="margin-bottom:12px; padding:18px; border-left:4px solid var(--sage);">
+        <div style="font-size:11px; font-weight:700; color:var(--sage); text-transform:uppercase; margin-bottom:8px;">✅ Sua Amostra de Vitalidade</div>
+        <div style="font-size:15px; font-weight:700; color:var(--text); margin-bottom:4px;">${freeMeal.day}</div>
+        <div style="font-size:14px; color:var(--muted); line-height:1.5;">${freeMeal.desc}</div>
+      </div>
+    `;
+
+    const lockedMeals = meals.slice(1);
+    let lockedHTML = '';
+    lockedMeals.forEach(m => {
+      lockedHTML += `
+        <div style="background:var(--off-white); border:1px solid var(--border); border-radius:14px; padding:14px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center; opacity:0.6;">
+          <div style="font-size:14px; font-weight:600; color:var(--text);">${m.day}</div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--muted)"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+      `;
+    });
+
+    mealPlanDiv.innerHTML += `
+      <div style="position:relative; margin-top:16px;">
+        <div style="filter:blur(1px); pointer-events:none;">${lockedHTML}</div>
+        <div style="text-align:center; padding:12px; font-size:13px; color:var(--sage-dark); font-weight:600; background:rgba(230,247,238,0.8); border-radius:12px; margin-top:-20px; position:relative; z-index:1; border:1px dashed var(--sage);">
+          +${lockedMeals.length} Refeições Personalizadas Bloqueadas
+        </div>
+      </div>
+    `;
+
+    document.getElementById('resultScreen').classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+>>>>>>> 110742e (Jarvis: Unificação e Sistema Admin 2.0)
     document.querySelector('.header').style.display = 'none';
     document.querySelector('.hero-wrap').style.display = 'none';
-
   }
 
   function restartQuiz() {
-    // Esconde resultado e mostra quiz do zero
-    document.getElementById('resultScreen').classList.remove('active');
-    document.getElementById('resultScreen').style.opacity = '';
-    document.getElementById('loadingScreen').classList.remove('active');
-    document.getElementById('quizBody').style.display = '';
-    document.querySelector('.header').style.display = '';
-    document.querySelector('.hero-wrap').style.display = '';
-
-    // Volta ao passo 1
-    document.querySelectorAll('.question').forEach(q => q.classList.remove('active'));
-    document.getElementById('step1').classList.add('active');
-
-    // Limpa seleções
-    document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
-    document.querySelectorAll('.btn-next').forEach(b => b.disabled = true);
-    document.getElementById('petName').value = '';
-    document.getElementById('tutorName').value = '';
-    if (document.getElementById('tutorEmail')) document.getElementById('tutorEmail').value = '';
-    answers = {};
-
-    // Reseta barra de progresso
-    document.getElementById('progressFill').style.width = '16%';
-    document.getElementById('stepIndicator').textContent = 'Passo 1 de 6';
-
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.location.reload();
   }
 
   function getMealPlan(tipo, fase, porte, restricao) {
-
-    // ── CACHORRO ──────────────────────────────────────────
-    if (tipo === 'cachorro') {
-
-      if (porte === 'mini') {
-        if (fase === 'filhote') return [
-          { day: "Segunda e Quinta", desc: "🍗 Frango cozido desfiado fino (40g) + batata-doce amassada (30g) + 1 pitada de cúrcuma" },
-          { day: "Terça e Sexta",    desc: "🥩 Carne bovina moída magra (40g) + cenoura ralada cozida (20g) + arroz branco bem cozido (20g)" },
-          { day: "Quarta e Sábado",  desc: "🥚 1 ovo mexido inteiro + aveia fina cozida (15g) + abobrinha amassada (20g)" },
-          { day: "Domingo",          desc: "🐟 Sardinha em água (30g) desfiada + mandioca cozida amassada (25g) + brócolis no vapor (15g)" },
-          { day: "Petisco diário",   desc: "🍪 Biscoitinho de aveia + frango desidratado (1 unidade pequena) — ideal para dentição" }
-        ];
-        if (fase === 'senior') return [
-          { day: "Segunda e Quinta", desc: "🍗 Frango cozido desfiado (45g) + batata-doce cozida (25g) + óleo de coco extra virgem (½ col. chá)" },
-          { day: "Terça e Sexta",    desc: "🐟 Sardinha em água (35g) + arroz integral bem cozido (20g) + espinafre picado no vapor (10g)" },
-          { day: "Quarta e Sábado",  desc: "🥩 Carne bovina moída cozida (40g) + abobrinha cozida (25g) + caldo de frango natural sem sal" },
-          { day: "Domingo",          desc: "🥚 1 ovo cozido picado + purê de abóbora (30g) + semente de chia (¼ col. chá) — rico em ômega-3" },
-          { day: "Petisco diário",   desc: "🥕 Chips de cenoura desidratada (2-3 unidades) — suave para digestão sênior" }
-        ];
-        return [ // adulto
-          { day: "Segunda e Quinta", desc: "🍗 Frango cozido desfiado (50g) + batata-doce cozida (35g) + cenoura ralada (15g)" },
-          { day: "Terça e Sexta",    desc: "🥩 Carne bovina moída (50g) + arroz integral (25g) + abobrinha refogada sem óleo (20g)" },
-          { day: "Quarta e Sábado",  desc: "🥚 1 ovo mexido + aveia fina (20g) + espinafre picado (15g)" },
-          { day: "Domingo",          desc: "🐟 Sardinha em água (40g) + mandioca cozida (30g) + brócolis no vapor (15g)" },
-          { day: "Petisco diário",   desc: "🍠 Chips de batata-doce desidratada (3-4 fatias finas) ou mini jerky de frango" }
-        ];
-      }
-
-      if (porte === 'medio') {
-        if (fase === 'filhote') return [
-          { day: "Segunda e Quinta", desc: "🍗 Frango cozido desfiado (100g) + batata-doce cozida (60g) + cenoura picada (30g) + 1 col. chá de azeite" },
-          { day: "Terça e Sexta",    desc: "🥩 Patinho bovino moído (100g) + arroz integral (50g) + brócolis cozido (30g)" },
-          { day: "Quarta e Sábado",  desc: "🥚 2 ovos mexidos + aveia em flocos (40g) + abóbora cozida amassada (40g)" },
-          { day: "Domingo",          desc: "🐟 Sardinha em água (80g) + mandioca cozida (50g) + espinafre no vapor (20g)" },
-          { day: "Petisco diário",   desc: "🍪 Biscoito de aveia e banana (2 unidades médias) — rico em energia para filhotes ativos" }
-        ];
-        if (fase === 'senior') return [
-          { day: "Segunda e Quinta", desc: "🐟 Salmão cozido (90g) + batata-doce cozida (50g) + óleo de coco (1 col. chá) — anti-inflamatório" },
-          { day: "Terça e Sexta",    desc: "🍗 Frango cozido (100g) + arroz branco (40g) + cenoura amassada (30g) — digestão fácil" },
-          { day: "Quarta e Sábado",  desc: "🥩 Carne bovina magra cozida (90g) + abobrinha cozida (40g) + caldo natural de frango" },
-          { day: "Domingo",          desc: "🥚 2 ovos cozidos + purê de abóbora (50g) + linhaça dourada moída (½ col. chá)" },
-          { day: "Petisco diário",   desc: "🥕 Palitinho de cenoura cozida + chips de frango (porção pequena) — fácil de mastigar" }
-        ];
-        return [ // adulto
-          { day: "Segunda e Quinta", desc: "🍗 Frango cozido desfiado (120g) + batata-doce cozida (70g) + cenoura ralada (30g)" },
-          { day: "Terça e Sexta",    desc: "🥩 Patinho bovino moído (120g) + arroz integral (60g) + abobrinha refogada sem óleo (40g)" },
-          { day: "Quarta e Sábado",  desc: "🥚 2 ovos mexidos + aveia em flocos (50g) + espinafre picado (25g)" },
-          { day: "Domingo",          desc: "🐟 Sardinha em água (100g) + mandioca cozida (60g) + brócolis no vapor (30g)" },
-          { day: "Petisco diário",   desc: "🍠 Chips de batata-doce (5-6 fatias) ou jerky de frango médio — ótimo pós-passeio" }
-        ];
-      }
-
-      // porte grande
+    // ── FOCO EXCLUSIVO EM CÃES ────────────────────────────
+    if (porte === 'mini') {
       if (fase === 'filhote') return [
-        { day: "Segunda e Quinta", desc: "🍗 Frango cozido desfiado (200g) + batata-doce cozida (100g) + cenoura picada (50g) + 1 col. sopa de azeite" },
-        { day: "Terça e Sexta",    desc: "🥩 Patinho bovino moído (200g) + arroz integral (90g) + brócolis cozido (50g)" },
-        { day: "Quarta e Sábado",  desc: "🥚 3 ovos mexidos + aveia em flocos (70g) + abóbora cozida (60g) + 1 col. chá de cúrcuma" },
-        { day: "Domingo",          desc: "🐟 Sardinha em água (150g) + mandioca cozida (80g) + espinafre no vapor (40g)" },
-        { day: "Petisco diário",   desc: "🍖 Osso de frango cozido grande (nunca cru!) ou biscoitão de aveia + frango (2-3 unidades)" }
+        { day: "Segunda e Quinta", desc: "🍗 Frango cozido desfiado fino (40g) + batata-doce amassada (30g) + 1 pitada de cúrcuma" },
+        { day: "Terça e Sexta",    desc: "🥩 Carne bovina moída magra (40g) + cenoura ralada cozida (20g) + arroz integral (20g)" },
+        { day: "Quarta e Sábado",  desc: "🥚 1 ovo mexido inteiro + aveia fina cozida (15g) + abobrinha amassada (20g)" },
+        { day: "Domingo",          desc: "🐟 Sardinha em água (30g) desfiada + mandioca cozida amassada (25g) + brócolis no vapor (15g)" },
+        { day: "Petisco diário",   desc: "🍪 Biscoitinho de aveia + frango desidratado (1 unidade pequena) — ideal para dentição" }
       ];
       if (fase === 'senior') return [
-        { day: "Segunda e Quinta", desc: "🐟 Salmão cozido (180g) + batata-doce (90g) + óleo de coco (1 col. sopa) — excelente para articulações" },
-        { day: "Terça e Sexta",    desc: "🍗 Frango cozido (200g) + arroz branco (80g) + cenoura amassada (50g) — leve para digestão" },
-        { day: "Quarta e Sábado",  desc: "🥩 Carne bovina magra (190g) + abobrinha cozida (70g) + caldo de frango natural sem sal" },
-        { day: "Domingo",          desc: "🥚 3 ovos cozidos + purê de abóbora (80g) + linhaça dourada moída (1 col. chá)" },
-        { day: "Petisco diário",   desc: "🥕 Cenoura cozida inteira + chips de frango (porção generosa) — mastigação suave para sênior" }
-      ];
-      return [ // adulto grande
-        { day: "Segunda e Quinta", desc: "🍗 Frango cozido desfiado (220g) + batata-doce cozida (110g) + cenoura ralada (50g)" },
-        { day: "Terça e Sexta",    desc: "🥩 Patinho bovino moído (220g) + arroz integral (100g) + abobrinha refogada sem óleo (60g)" },
-        { day: "Quarta e Sábado",  desc: "🥚 3 ovos mexidos + aveia em flocos (80g) + espinafre picado (40g) + 1 col. chá de cúrcuma" },
-        { day: "Domingo",          desc: "🐟 Sardinha em água (180g) + mandioca cozida (100g) + brócolis no vapor (50g)" },
-        { day: "Petisco diário",   desc: "🍠 Batata-doce assada inteira (metade) ou jerky de frango grande — energia pós-exercício" }
-      ];
-    }
-
-    // ── GATO ──────────────────────────────────────────────
-    if (tipo === 'gato') {
-
-      if (fase === 'filhote') return [
-        { day: "Segunda e Quinta", desc: "🍗 Frango cozido desfiado fino (40g) + caldo de frango natural sem sal (2 col. sopa) — úmido e nutritivo" },
-        { day: "Terça e Sexta",    desc: "🫀 Coração de galinha cozido picado (35g) + abóbora amassada (15g) — rico em taurina essencial" },
-        { day: "Quarta e Sábado",  desc: "🐟 Sardinha em água (30g) desfiada + caldo de peixe natural (1 col. sopa)" },
-        { day: "Domingo",          desc: "🥩 Carne bovina magra moída (35g) cozida + caldo de frango (2 col. sopa)" },
-        { day: "Petisco diário",   desc: "🐓 Bifinho de frango desidratado (½ tira pequena) — estimula o instinto natural" }
-      ];
-      if (fase === 'senior') return [
-        { day: "Segunda e Quinta", desc: "🍗 Frango cozido desfiado (50g) + caldo de frango (3 col. sopa) + óleo de salmão (2 gotas) — hidratação + ômega-3" },
-        { day: "Terça e Sexta",    desc: "🐟 Atum em água natural (45g) + purê de abobrinha (20g) — leve e digestivo" },
-        { day: "Quarta e Sábado",  desc: "🫀 Coração de galinha cozido (40g) + caldo de frango natural (3 col. sopa)" },
-        { day: "Domingo",          desc: "🥩 Carne bovina magra moída (45g) + caldo de carne natural sem sal (2 col. sopa)" },
-        { day: "Petisco diário",   desc: "🐟 Floquinhos de atum natural (½ col. chá) — petisco suave para sênior" }
+        { day: "Segunda e Quinta", desc: "🍗 Frango cozido desfiado (45g) + batata-doce cozida (25g) + óleo de coco extra virgem (½ col. chá)" },
+        { day: "Terça e Sexta",    desc: "🐟 Sardinha em água (35g) + arroz integral bem cozido (20g) + espinafre picado no vapor (10g)" },
+        { day: "Quarta e Sábado",  desc: "🥩 Carne bovina moída cozida (40g) + abobrinha cozida (25g) + caldo de frango natural sem sal" },
+        { day: "Domingo",          desc: "🥚 1 ovo cozido picado + purê de abóbora (30g) + semente de chia (¼ col. chá) — rico em ômega-3" },
+        { day: "Petisco diário",   desc: "🥕 Chips de cenoura desidratada (2-3 unidades) — suave para digestão sênior" }
       ];
       return [ // adulto
-        { day: "Segunda e Quinta", desc: "🍗 Frango cozido desfiado (55g) + abóbora amassada (20g) + caldo de frango natural (2 col. sopa)" },
-        { day: "Terça e Sexta",    desc: "🫀 Coração de galinha cozido picado (50g) + caldo de frango natural sem sal (2 col. sopa)" },
-        { day: "Quarta e Sábado",  desc: "🐟 Sardinha em água (45g) desfiada + purê de abobrinha (20g)" },
-        { day: "Domingo",          desc: "🥩 Carne bovina magra moída (50g) cozida + caldo de frango natural (2 col. sopa)" },
-        { day: "Petisco diário",   desc: "🐓 Bifinho de frango desidratado (½ tira) ou lascas de sardinha seca — fonte de proteína pura" }
+        { day: "Segunda e Quinta", desc: "🍗 Frango cozido desfiado (50g) + batata-doce cozida (35g) + cenoura ralada (15g)" },
+        { day: "Terça e Sexta",    desc: "🥩 Carne bovina moída (50g) + arroz integral (25g) + abobrinha refogada sem óleo (20g)" },
+        { day: "Quarta e Sábado",  desc: "🥚 1 ovo mexido + aveia fina (20g) + espinafre picado (15g)" },
+        { day: "Domingo",          desc: "🐟 Sardinha em água (40g) + mandioca cozida (30g) + brócolis no vapor (15g)" },
+        { day: "Petisco diário",   desc: "🍠 Chips de batata-doce desidratada (3-4 fatias finas) ou mini jerky de frango" }
       ];
     }
 
-    // ── OUTRO (coelho, ave...) ────────────────────────────
-    return [
-      { day: "Segunda e Quinta", desc: "🥬 Folhas frescas variadas (alface, rúcula, couve) + cenoura ralada + 1 rodela de pepino" },
-      { day: "Terça e Sexta",    desc: "🌿 Feno Timothy fresco (à vontade) + ramo de salsinha + fatia fina de maçã sem sementes" },
-      { day: "Quarta e Sábado",  desc: "🥦 Brócolis no vapor (pequenininho) + folha de couve + talo de salsão fresco" },
-      { day: "Domingo",          desc: "🫐 Mix de frutas permitidas: mirtilo (2-3 unidades) + fatia de banana + pedacinho de melancia sem casca" },
-      { day: "Petisco diário",   desc: "🥕 Palitinho de cenoura crua ou ramo de erva-cidreira — petisco seguro e refrescante" }
+    if (porte === 'medio') {
+      if (fase === 'filhote') return [
+        { day: "Segunda e Quinta", desc: "🍗 Frango cozido desfiado (100g) + batata-doce cozida (60g) + cenoura picada (30g) + 1 col. chá de azeite" },
+        { day: "Terça e Sexta",    desc: "🥩 Patinho bovino moído (100g) + arroz integral (50g) + brócolis cozido (30g)" },
+        { day: "Quarta e Sábado",  desc: "🥚 2 ovos mexidos + aveia em flocos (40g) + abóbora cozida amassada (40g)" },
+        { day: "Domingo",          desc: "🐟 Sardinha em água (80g) + mandioca cozida (50g) + espinafre no vapor (20g)" },
+        { day: "Petisco diário",   desc: "🍪 Biscoito de aveia e banana (2 unidades médias) — rico em energia para filhotes ativos" }
+      ];
+      if (fase === 'senior') return [
+        { day: "Segunda e Quinta", desc: "🐟 Salmão cozido (90g) + batata-doce cozida (50g) + óleo de coco (1 col. chá) — anti-inflamatório" },
+        { day: "Terça e Sexta",    desc: "🍗 Frango cozido (100g) + arroz integral (40g) + cenoura amassada (30g) — digestão fácil" },
+        { day: "Quarta e Sábado",  desc: "🥩 Carne bovina magra cozida (90g) + abobrinha cozida (40g) + caldo natural de frango" },
+        { day: "Domingo",          desc: "🥚 2 ovos cozidos + purê de abóbora (50g) + linhaça dourada moída (½ col. chá)" },
+        { day: "Petisco diário",   desc: "🥕 Palitinho de cenoura cozida + chips de frango (porção pequena) — fácil de mastigar" }
+      ];
+      return [ // adulto
+        { day: "Segunda e Quinta", desc: "🍗 Frango cozido desfiado (120g) + batata-doce cozida (70g) + cenoura ralada (30g)" },
+        { day: "Terça e Sexta",    desc: "🥩 Patinho bovino moído (120g) + arroz integral (60g) + abobrinha refogada sem óleo (40g)" },
+        { day: "Quarta e Sábado",  desc: "🥚 2 ovos mexidos + aveia em flocos (50g) + espinafre picado (25g)" },
+        { day: "Domingo",          desc: "🐟 Sardinha em água (100g) + mandioca cozida (60g) + brócolis no vapor (30g)" },
+        { day: "Petisco diário",   desc: "🍠 Chips de batata-doce (5-6 fatias) ou jerky de frango médio — ótimo pós-passeio" }
+      ];
+    }
+
+    if (fase === 'filhote') return [
+      { day: "Segunda e Quinta", desc: "🍗 Frango cozido desfiado (200g) + batata-doce cozida (100g) + cenoura picada (50g) + 1 col. sopa de azeite" },
+      { day: "Terça e Sexta",    desc: "🥩 Patinho bovino moído (200g) + arroz integral (90g) + brócolis cozido (50g)" },
+      { day: "Quarta e Sábado",  desc: "🥚 3 ovos mexidos + aveia em flocos (70g) + abóbora cozida (60g) + 1 col. chá de cúrcuma" },
+      { day: "Domingo",          desc: "🐟 Sardinha em água (150g) + mandioca cozida (80g) + espinafre no vapor (40g)" },
+      { day: "Petisco diário",   desc: "🍪 Biscoitão de aveia + frango desidratado (2-3 unidades)" }
+    ];
+    if (fase === 'senior') return [
+      { day: "Segunda e Quinta", desc: "🐟 Salmão cozido (180g) + batata-doce (90g) + óleo de coco (1 col. sopa) — excelente para articulações" },
+      { day: "Terça e Sexta",    desc: "🍗 Frango cozido (200g) + arroz integral (80g) + cenoura amassada (50g) — leve para digestão" },
+      { day: "Quarta e Sábado",  desc: "🥩 Carne bovina magra (190g) + abobrinha cozida (70g) + caldo de frango natural sem sal" },
+      { day: "Domingo",          desc: "🥚 3 ovos cozidos + purê de abóbora (80g) + linhaça dourada moída (1 col. chá)" },
+      { day: "Petisco diário",   desc: "🥕 Cenoura cozida inteira + chips de frango (porção generosa) — mastigação suave para sênior" }
+    ];
+    return [ // adulto grande
+      { day: "Segunda e Quinta", desc: "🍗 Frango cozido desfiado (220g) + batata-doce cozida (110g) + cenoura ralada (50g)" },
+      { day: "Terça e Sexta",    desc: "🥩 Patinho bovino moído (220g) + arroz integral (100g) + abobrinha refogada sem óleo (60g)" },
+      { day: "Quarta e Sábado",  desc: "🥚 3 ovos mexidos + aveia em flocos (80g) + espinafre picado (40g) + 1 col. chá de cúrcuma" },
+      { day: "Domingo",          desc: "🐟 Sardinha em água (180g) + mandioca cozida (100g) + brócolis no vapor (50g)" },
+      { day: "Petisco diário",   desc: "🍠 Batata-doce assada inteira (metade) ou jerky de frango grande — energia pós-exercício" }
     ];
   }
 </script>

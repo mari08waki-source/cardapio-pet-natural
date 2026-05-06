@@ -5,44 +5,88 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="icon" type="image/png" href="favicon.png"/>
   <link rel="manifest" href="/manifest.json"/>
-  <meta name="theme-color" content="#d4af37"/>
-  <title>Cardápio Pet Natural — Nova Senha</title>
+  <meta name="theme-color" content="#124016"/>
+  <title>Redefinir Senha — Hako Pet</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --sage:       #1A9E50;
-      --sage-dark:  #136B36;
-      --sage-bg:    #E6F7EE;
-      --gold:       #D4920A;
+      --sage:       #124016;
+      --sage-dark:  #0D2E10;
+      --gold:       #D4AF37;
       --white:      #FFFFFF;
-      --off-white:  #FDFAF4;
-      --border:     #DDE8D8;
-      --text:       #1A1A1A;
-      --muted:      #5A6472;
-      --error:      #DC2626;
-      --error-bg:   #FEF2F2;
-      --success:    #16A34A;
-      --success-bg: #F0FDF4;
+      --bg:         #F8FAFB;
+      --text:       #0F172A;
+      --muted:      #64748B;
+      --border:     #E2E8F0;
+      --error:      #EF4444;
+      --success:    #10B981;
     }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Segoe UI', system-ui, sans-serif; background: linear-gradient(160deg, #E8F5ED 0%, #F5F0E8 55%, #EBF5F0 100%); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
-    .brand { display: flex; align-items: center; gap: 10px; margin-bottom: 28px; text-decoration: none; }
-    .brand-icon { width: 44px; height: 44px; background: linear-gradient(135deg, var(--sage-dark), var(--sage)); border-radius: 14px; display: flex; align-items: center; justify-content: center; color: white; box-shadow: 0 4px 14px rgba(26,158,80,0.35); }
-    .brand-icon svg { width: 22px; height: 22px; }
-    .brand-name { font-size: 18px; font-weight: 800; color: var(--sage-dark); letter-spacing: -0.3px; }
-    .card { background: var(--white); border-radius: 24px; box-shadow: 0 20px 60px rgba(0,0,0,0.12); width: 100%; max-width: 420px; overflow: hidden; padding: 28px; }
-    .panel-title { font-size: 20px; font-weight: 800; color: var(--text); margin-bottom: 6px; letter-spacing: -0.3px; }
-    .panel-sub { font-size: 13px; color: var(--muted); margin-bottom: 24px; line-height: 1.5; }
-    .field { margin-bottom: 16px; }
-    .field label { display: block; font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; margin-bottom: 7px; }
-    .field input { width: 100%; padding: 13px 16px; border: 1.5px solid var(--border); border-radius: 14px; font-size: 16px; color: var(--text); background: var(--off-white); outline: none; }
-    .field input:focus { border-color: var(--sage); background: var(--white); box-shadow: 0 0 0 3px rgba(26,158,80,0.12); }
-    .btn-primary { width: 100%; padding: 15px; background: linear-gradient(135deg, var(--sage) 0%, var(--sage-dark) 100%); border: none; border-radius: 99px; font-size: 15px; font-weight: 800; color: white; cursor: pointer; min-height: 52px; margin-top: 10px; }
-    .alert { display: none; padding: 12px 16px; border-radius: 12px; font-size: 13px; margin-bottom: 16px; font-weight: 500; }
-    .alert.show { display: flex; align-items: flex-start; gap: 8px; }
-    .alert.error { background: var(--error-bg); color: var(--error); border: 1px solid #FECACA; }
-    .alert.success { background: var(--success-bg); color: var(--success); border: 1px solid #BBF7D0; }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: linear-gradient(135deg, #F8FAFB 0%, #E2E8F0 100%);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .card {
+      background: var(--white);
+      width: 100%;
+      max-width: 420px;
+      border-radius: 32px;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15);
+      padding: 40px;
+      position: relative;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 32px;
+    }
+
+    .brand-icon {
+      width: 54px; height: 54px;
+      background: var(--sage);
+      border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+
+    .brand-icon svg { width: 28px; height: 28px; }
+
+    .title { font-size: 22px; font-weight: 800; color: var(--sage); text-align: center; }
+    .sub { font-size: 14px; color: var(--muted); text-align: center; margin-top: 6px; margin-bottom: 32px; }
+
+    .field { margin-bottom: 24px; }
+    .field label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+    .field input {
+      width: 100%; padding: 14px 18px; border: 1.5px solid var(--border); border-radius: 16px;
+      font-size: 16px; outline: none; background: #F1F5F9;
+    }
+    .field input:focus { border-color: var(--sage); background: white; }
+
+    .btn {
+      width: 100%; padding: 16px; background: var(--sage); color: white; border: none;
+      border-radius: 18px; font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.2s;
+    }
+    .btn:hover { background: var(--sage-dark); transform: translateY(-2px); }
+
+    .alert { padding: 12px; border-radius: 12px; font-size: 14px; margin-bottom: 24px; display: none; font-weight: 600; text-align: center; }
+    .alert.error { background: #FEF2F2; color: var(--error); border: 1px solid #FECACA; display: block; }
+    .alert.success { background: #ECFDF5; color: var(--success); border: 1px solid #A7F3D0; display: block; }
+
   </style>
+<<<<<<< HEAD
 <!-- Meta Pixel Code -->
 <script>
 !function(f,b,e,v,n,t,s)
@@ -60,30 +104,28 @@ fbq('track', 'PageView');
 src="https://www.facebook.com/tr?id=1662091188448845&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
+=======
+>>>>>>> 110742e (Jarvis: Unificação e Sistema Admin 2.0)
 </head>
 <body>
-  <a class="brand" href="calculadora-pet-FINAL.html">
-    <div class="brand-icon">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
-    </div>
-    <span class="brand-name">Cardápio Pet Natural</span>
-  </a>
 
   <div class="card">
-    <div class="panel-title">Criar Nova Senha 🔒</div>
-    <div class="panel-sub">Digite sua nova senha abaixo para redefinir o seu acesso.</div>
-
-    <div class="alert" id="alertBox"></div>
-
-    <form onsubmit="event.preventDefault(); updatePassword();">
-      <div class="field">
-        <label>Nova Senha</label>
-        <input type="password" id="novaSenha" placeholder="Mínimo 8 caracteres" required minlength="8" />
+    <div class="brand">
+      <div class="brand-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
       </div>
+      <h1 class="title">Nova Senha</h1>
+      <p class="sub">Crie uma senha forte para proteger seu acesso mestre.</p>
+    </div>
 
-      <button type="submit" class="btn-primary" id="btnSalvar">
-        Salvar e Entrar
-      </button>
+    <div id="alertBox" class="alert"></div>
+
+    <form onsubmit="handleReset(event)">
+      <div class="field">
+        <label>Digite a nova senha</label>
+        <input type="password" id="newPass" placeholder="••••••••" required minlength="8" />
+      </div>
+      <button type="submit" class="btn" id="btnAction">Redefinir e Entrar</button>
     </form>
   </div>
 
@@ -91,44 +133,31 @@ src="https://www.facebook.com/tr?id=1662091188448845&ev=PageView&noscript=1"
     const { createClient } = supabase;
     const sb = createClient(
       'https://fzmqdevzdwluhasvxswi.supabase.co',
-      'sb_publishable_FJ921pqk3-vg8gD68euDTg_H1TtAZdz'
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ6bXFkZXZ6ZHdsdWhhc3Z4c3dpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxMDE2OTksImV4cCI6MjA5MTY3NzY5OX0.l9b9BNlsHzo4c5zzJJ-6a3byK3N5D4OsuWm42mA5udI'
     );
 
-    function showAlert(type, msg) {
-      const el = document.getElementById('alertBox');
-      el.className = `alert show ${type}`;
-      el.innerHTML = msg;
-    }
+    async function handleReset(e) {
+      e.preventDefault();
+      const alert = document.getElementById('alertBox');
+      const btn = document.getElementById('btnAction');
+      const pass = document.getElementById('newPass').value;
 
-    sb.auth.onAuthStateChange((event, session) => {
-      if (event == "PASSWORD_RECOVERY") {
-        console.log("Pronto para recuperar senha");
-      }
-    });
-
-    async function updatePassword() {
-      const novaSenha = document.getElementById('novaSenha').value;
-      if(novaSenha.length < 8) {
-        showAlert('error', 'A senha deve ter no mínimo 8 caracteres.');
-        return;
-      }
-
-      const btn = document.getElementById('btnSalvar');
+      alert.style.display = 'none';
       btn.disabled = true;
-      btn.textContent = 'Salvando...';
+      btn.textContent = 'Atualizando...';
 
-      const { data, error } = await sb.auth.updateUser({ password: novaSenha });
+      try {
+        const { error } = await sb.auth.updateUser({ password: pass });
+        if (error) throw error;
 
-      btn.disabled = false;
-      btn.textContent = 'Salvar e Entrar';
-
-      if (error) {
-        showAlert('error', 'Erro ao atualizar: ' + error.message);
-      } else {
-        showAlert('success', 'Senha atualizada com sucesso! Redirecionando...');
-        setTimeout(() => {
-          window.location.href = 'login.html';
-        }, 2000);
+        alert.className = 'alert success';
+        alert.textContent = 'Senha atualizada! Redirecionando...';
+        setTimeout(() => { window.location.href = '/login'; }, 2000);
+      } catch (err) {
+        alert.className = 'alert error';
+        alert.textContent = err.message;
+        btn.disabled = false;
+        btn.textContent = 'Redefinir e Entrar';
       }
     }
   </script>

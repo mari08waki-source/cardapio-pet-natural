@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cardápio Pet Inteligente - Premium UI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #FAEEE1;
+            --text-dark: #3F2C23;
+            --text-light: #8E7C73;
+            --primary: #E67A15;
+            --primary-dark: #C9660C;
+            --input-bg: rgba(255, 255, 255, 0.4);
+            --input-border: rgba(255, 255, 255, 0.8);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: #e0d5c8; /* Fundo imitando mesa/ambiente */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Mockup do Celular */
+        .phone-frame {
+            width: 390px;
+            height: 844px; /* Tamanho de tela de iPhone */
+            background-color: var(--bg-color);
+            border-radius: 45px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15), 0 0 0 12px #F4E8D8;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 60px;
+        }
+
+        /* Brilho de fundo igual da imagem */
+        .phone-frame::before {
+            content: '';
+            position: absolute;
+            top: 35%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(230,122,21,0.15) 0%, rgba(250,238,225,0) 70%);
+            z-index: 0;
+        }
+
+        .header {
+            z-index: 1;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            width: 55px;
+            height: 55px;
+            background: linear-gradient(135deg, #F09A46, #D86A0F);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 10px;
+            color: white;
+            font-size: 26px;
+            box-shadow: 0 4px 15px rgba(230,122,21,0.4);
+        }
+
+        .title {
+            color: var(--text-dark);
+            font-weight: 800;
+            font-size: 20px;
+            line-height: 1.1;
+        }
+        
+        .subtitle {
+            color: var(--primary);
+            font-weight: 800;
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .headline {
+            color: var(--text-dark);
+            font-size: 26px;
+            font-weight: 700;
+            text-align: center;
+            line-height: 1.1;
+            margin-top: 10px;
+            margin-bottom: 25px;
+            z-index: 1;
+        }
+        
+        .headline span {
+            color: var(--primary);
+        }
+
+        /* CARROSSEL FLUTUANTE */
+        .carousel-container {
+            width: 100%;
+            height: 250px;
+            position: relative;
+            z-index: 2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px;
+        }
+
+        .carousel-track {
+            display: flex;
+            position: relative;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card {
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            border-radius: 20px;
+            background-color: white;
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            border: 3px solid white;
+            cursor: pointer;
+        }
+
+        .card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Efeito de Vidro/Sombra no Card Principal */
+        .card.active {
+            transform: translateX(0) scale(1.05);
+            z-index: 3;
+            box-shadow: 0 0 30px rgba(230,122,21,0.5), 0 15px 30px rgba(0,0,0,0.2);
+            border-color: #fff;
+        }
+
+        .card.prev {
+            transform: translateX(-120px) scale(0.85);
+            z-index: 2;
+            opacity: 0.85;
+            filter: blur(1px);
+        }
+
+        .card.next {
+            transform: translateX(120px) scale(0.85);
+            z-index: 2;
+            opacity: 0.85;
+            filter: blur(1px);
+        }
+
+        .card-label {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255,255,255,0.9);
+            padding: 6px 14px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 800;
+            backdrop-filter: blur(5px);
+            white-space: nowrap;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        
+        .card.prev .card-label { color: #4CAF50; } /* Frutas */
+        .card.next .card-label { color: #F44336; } /* Proibidos */
+
+        .dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 25px;
+            z-index: 2;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(230,122,21,0.25);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .dot.active {
+            background: var(--primary);
+            width: 18px;
+            border-radius: 10px;
+        }
+
+        /* Formulário de Login Premium */
+        .login-box {
+            width: 85%;
+            margin-top: 30px;
+            z-index: 2;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 18px 18px 18px 50px;
+            border-radius: 16px;
+            border: 2px solid var(--input-border);
+            background: var(--input-bg);
+            backdrop-filter: blur(15px);
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-dark);
+            outline: none;
+            transition: border-color 0.3s, background 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+        }
+
+        .input-group input:focus {
+            border-color: var(--primary);
+            background: white;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #A6968C;
+            font-size: 20px;
+        }
+
+        .btn-enter {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #F09A46 0%, #D86A0F 100%);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 800;
+            margin-top: 10px;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(230,122,21,0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-enter:active {
+            transform: translateY(2px);
+            box-shadow: 0 5px 10px rgba(230,122,21,0.2);
+        }
+
+        .links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+            font-size: 14px;
+        }
+
+        .links a {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .links span {
+            color: #C0B2A7;
+        }
+        
+        .links a:last-child {
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .terms {
+            margin-top: 35px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 12px;
+            color: var(--text-light);
+            text-align: left;
+            line-height: 1.4;
+        }
+
+        .terms input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+            margin-top: 2px;
+            cursor: pointer;
+        }
+
+        .terms a {
+            color: var(--primary);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        /* Detalhe sutil de patinhas no fundo */
+        .paw-bg {
+            position: absolute;
+            color: rgba(200, 180, 160, 0.08);
+            font-size: 180px;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .paw1 { top: -40px; left: -50px; transform: rotate(-25deg); }
+        .paw2 { bottom: -20px; right: -50px; transform: rotate(25deg); }
+
+    </style>
+</head>
+<body>
+
+    <div class="phone-frame">
+        <div class="paw-bg paw1">🐾</div>
+        <div class="paw-bg paw2">🐾</div>
+
+        <div class="header">
+            <div class="logo">🐾</div>
+            <div class="title">Cardápio Pet</div>
+            <div class="subtitle">Inteligente</div>
+        </div>
+
+        <div class="headline">
+            Seu pet merece<br><span>um chef particular</span>
+        </div>
+
+        <!-- O SEGREDO MÁGICO: CARROSSEL FLUTUANTE EM AÇÃO -->
+        <div class="carousel-container">
+            <div class="carousel-track" id="track">
+                
+                <!-- CARD 1: FRUTAS (Esquerda) -->
+                <div class="card prev" onclick="moveCarousel('prev')">
+                    <!-- Usando uma imagem de exemplo de frutas bonitas/saudáveis -->
+                    <img src="https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&w=400&q=80" alt="Frutas Permitidas">
+                    <div class="card-label">✅ Frutas Permitidas</div>
+                </div>
+
+                <!-- CARD 2: PRATO PRINCIPAL O CACHORRO (Centro) -->
+                <div class="card active" onclick="moveCarousel('next')">
+                    <!-- Imagem principal do Golden Retriever com o prato chefe -->
+                    <img src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=400&q=80" alt="Cachorro Feliz com Comida">
+                    <div class="card-label" style="display:none;"></div>
+                </div>
+
+                <!-- CARD 3: ALIMENTOS PROIBIDOS (Direita) -->
+                <div class="card next" onclick="moveCarousel('next')">
+                    <!-- Imagem simbólica escura (ex: uvas/chocolate) para os proibidos -->
+                    <img src="https://images.unsplash.com/photo-1511381939415-e440c06180a5?auto=format&fit=crop&w=400&q=80" alt="Alimentos Proibidos">
+                    <div class="card-label">❌ Proibidos</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="dots">
+            <div class="dot"></div>
+            <div class="dot active"></div>
+            <div class="dot"></div>
+        </div>
+
+        <div class="login-box">
+            <div class="input-group">
+                <div class="input-icon">✉️</div>
+                <input type="email" placeholder="E-mail">
+            </div>
+            
+            <div class="input-group">
+                <div class="input-icon">🔒</div>
+                <input type="password" placeholder="Senha">
+            </div>
+
+            <button class="btn-enter" onclick="alert('Seja bem-vindo ao mundo Premium!')">Entrar</button>
+
+            <div class="links">
+                <a href="#">Criar conta</a>
+                <span>|</span>
+                <a href="#">Esqueci minha senha</a>
+            </div>
+
+            <div class="terms">
+                <input type="checkbox" checked>
+                <div>
+                    Você declara que confia que este produto é de alta qualidade e concorda com os 
+                    <a href="#">Termos de Uso</a>.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script de animação do Carrossel Flutuante -->
+    <script>
+        const cards = document.querySelectorAll('.card');
+        const dots = document.querySelectorAll('.dot');
+        let currentIndex = 1; 
+
+        function moveCarousel(direction) {
+            if (direction === 'prev') {
+                currentIndex = (currentIndex - 1 + 3) % 3;
+            } else if (direction === 'next') {
+                currentIndex = (currentIndex + 1) % 3;
+            }
+            updateView();
+        }
+
+        function updateView() {
+            cards.forEach(card => card.className = 'card');
+            dots.forEach(dot => dot.className = 'dot');
+
+            let prevIndex = (currentIndex - 1 + 3) % 3;
+            let nextIndex = (currentIndex + 1) % 3;
+
+            cards[prevIndex].classList.add('prev');
+            cards[currentIndex].classList.add('active');
+            cards[nextIndex].classList.add('next');
+
+            dots[currentIndex].classList.add('active');
+        }
+
+        // Deixando o carrossel girar sozinho a cada 3.5 segundos! Interatividade absurda.
+        setInterval(() => {
+            moveCarousel('next');
+        }, 3500);
+    </script>
+</body>
+</html>

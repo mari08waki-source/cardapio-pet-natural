@@ -19,16 +19,9 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://cardapio-pet-natural.vercel.app/">
 <meta property="og:image" content="https://cardapio-pet-natural.vercel.app/imagem-topo.jpg">
-<meta property="og:image:width" content="1536">
-<meta property="og:image:height" content="1024">
 <meta property="og:site_name" content="Cardápio Natural Pet">
 <meta property="og:locale" content="pt_BR">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Cardápio Natural Pet">
-<meta name="twitter:description" content="Monte o cardápio ideal para o seu pet em poucos minutos, de forma simples e sem complicação">
-<meta name="twitter:image" content="https://cardapio-pet-natural.vercel.app/imagem-topo.jpg">
 
-<meta http-equiv="refresh" content="0; url=calculadora-pet-FINAL.html"/>
 <!-- Meta Pixel Code -->
 <script>
 !function(f,b,e,v,n,t,s)
@@ -46,18 +39,29 @@ fbq('track', 'PageView');
 src="https://www.facebook.com/tr?id=1662091188448845&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
-</head>
-<body>
-<p>Redirecionando... <a href="calculadora-pet-FINAL.html">Clique aqui se não redirecionar</a></p>
+
 <script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-    navigator.serviceWorker.register('/service-worker.js').catch(function(err){
-      console.log('SW registration failed:', err);
-    });
-  });
-}
+  // DETECTOR DE REDIRECIONAMENTO MASTER
+  (function() {
+    const url = window.location.href;
+    const hash = window.location.hash;
+    
+    // Se houver qualquer indício de recuperação de senha ou confirmação de conta
+    if (url.includes('access_token') || hash.includes('access_token') || url.includes('type=recovery')) {
+      console.log("Fluxo de Autenticação detectado. Redirecionando para RESET...");
+      window.location.href = '/reset-senha.html' + hash;
+      return;
+    }
+
+    // Se não for autenticação, aguarda um momento e vai para o Quiz
+    setTimeout(() => {
+      window.location.href = 'calculadora-pet-FINAL.html';
+    }, 500);
+  })();
 </script>
+</head>
+<body style="background:#FDFAF4; display:flex; align-items:center; justify-content:center; height:100vh; font-family: sans-serif; color:#5A6472;">
+  <p>Iniciando experiência personalizada...</p>
 </body>
 </html>
 
