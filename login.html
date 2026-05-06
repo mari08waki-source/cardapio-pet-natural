@@ -719,11 +719,20 @@ src="https://www.facebook.com/tr?id=1662091188448845&ev=PageView&noscript=1"
     }
 
     function redirectUser(email) {
-      if (email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
-        window.location.href = '/admin';
-      } else {
-        window.location.href = '/cardapio';
-      }
+      const alert = document.getElementById('authAlert');
+      alert.style.display = 'block';
+      alert.className = 'alert error';
+      alert.style.color = '#16A34A';
+      alert.style.backgroundColor = '#F0FDF4';
+      alert.textContent = 'Autenticado! Entrando no sistema...';
+      
+      setTimeout(() => {
+        if (email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
+          window.location.href = 'admin.html';
+        } else {
+          window.location.href = 'cardapio.html';
+        }
+      }, 1000);
     }
 
     // Auto-login check
