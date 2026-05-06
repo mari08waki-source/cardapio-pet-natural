@@ -113,7 +113,27 @@
   </div>
 
   <script>
-    const sb = supabase.createClient('https://fzmqdevzdwluhasvxswi.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ6bXFkZXZ6ZHdsdWhhc3Z4c3dpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxMDE2OTksImV4cCI6MjA5MTY3NzY5OX0.l9b9BNlsHzo4c5zzJJ-6a3byK3N5D4OsuWm42mA5udI');
+    const sb = supabase.createClient(
+      'https://fzmqdevzdwluhasvxswi.supabase.co', 
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ6bXFkZXZ6ZHdsdWhhc3Z4c3dpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxMDE2OTksImV4cCI6MjA5MTY3NzY5OX0.l9b9BNlsHzo4c5zzJJ-6a3byK3N5D4OsuWm42mA5udI',
+      {
+        auth: {
+          persistSession: true,
+          autoRefreshToken: true,
+          detectSessionInUrl: true
+        }
+      }
+    );
+    
+    // Status de Conexão
+    (async () => {
+      try {
+        const { error } = await sb.from('cardapios').select('id').limit(1);
+        console.log("Conexão Supabase:", error ? "Erro" : "OK");
+      } catch(e) {
+        console.error("Erro de Rede:", e);
+      }
+    })();
     const ADMIN = 'mari08waki@gmail.com';
 
     document.getElementById('loginEmail').addEventListener('input', e => {
